@@ -23,3 +23,9 @@ Route::post('/daftar-pengguna', 'Master\Data\DataPengguna@store')->name('penggun
 Route::get('/daftar-pengguna/show', 'Master\Data\DataPengguna@show')->name('pengguna.show');
 Route::post('/daftar-pengguna/show', 'Master\Data\DataPengguna@detail')->name('pengguna.detail');
 Route::delete('/daftar-pengguna/show', 'Master\Data\DataPengguna@destroy')->name('pengguna.destroy');
+
+Route::get('/penghubung-rekening', 'Master\Account\PenghubungRekening@index')->name('penghubung_rekening.index');
+Route::post('/penghubung-rekening', 'Master\Account\PenghubungRekening@store')->name('penghubung_rekening.store');
+Route::get('/penghubung-rekening/show', 'Master\Account\PenghubungRekening@show')->name('penghubung_rekening.show');
+Route::post('/penghubung-rekening/show', 'Master\Account\PenghubungRekening@detail')->name('penghubung_rekening.detail');
+Route::delete('/penghubung-rekening/show', 'Master\Account\PenghubungRekening@destroy')->name('penghubung_rekening.destroy');

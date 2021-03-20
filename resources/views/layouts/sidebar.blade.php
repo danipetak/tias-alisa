@@ -1,10 +1,22 @@
 <div class="sidebar">
-    <ul>
+    <ul class="mb-2">
         <a href="{{ route('profil_perusahaan.index') }}">
-            <li>Profil Perusahaan</li>
+            <li class="{{ request()->routeIs('profil_perusahaan.index') ? 'bg-active' : '' }}">
+                Profil Perusahaan
+            </li>
         </a>
         <a href="{{ route('pengguna.index') }}">
-            <li>Daftar Pengguna</li>
+            <li class="{{ request()->routeIs('pengguna.index') ? 'bg-active' : '' }}">
+                Daftar Pengguna
+            </li>
+        </a>
+    </ul>
+
+    <ul class="mb-2">
+        <a href="{{ route('penghubung_rekening.index') }}">
+            <li class="{{ request()->routeIs('penghubung_rekening.index') ? 'bg-active' : '' }}">
+                Penghubung Rekening
+            </li>
         </a>
     </ul>
 </div>

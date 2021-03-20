@@ -55,14 +55,24 @@ $(document).ready(function() {
                 $('#password').val('');
                 $('#password_confirmation').val('');
                 document.getElementById('submit').innerHTML =   'Ubah' ;
+                document.getElementById('clear').style      =   '' ;
             },
 
         });
     });
 
+    $('#clear').click(function(){
+        document.getElementById('submit').innerHTML =   'Submit' ;
+        document.getElementById('clear').style      =   'display: none' ;
+        $('#x_code').val('');
+        $('#nama_lengkap').val('');
+        $('#email').val('');
+        $('#password').val('');
+        $('#password_confirmation').val('');
+    });
+
     $('#submit').click(function(e){
         e.preventDefault();
-        let form_data = $("#myForm").serialize()
         $(document).find("span.text-danger").remove();
 
         var x_code                  =   $('#x_code').val();
@@ -143,6 +153,7 @@ $(document).ready(function() {
     </div>
 
     <div class="form-group text-right">
+        <button type="submit" class="btn btn-secondary mr-1" id='clear' style="display: none">Clear</button>
         <button type="submit" id='submit' class="btn btn-primary">Submit</button>
     </div>
 

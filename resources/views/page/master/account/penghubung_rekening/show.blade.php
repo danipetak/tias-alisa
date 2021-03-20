@@ -3,8 +3,7 @@
     <thead>
         <tr>
             <th>No</th>
-            <th>Nama Lengkap</th>
-            <th>E-Mail</th>
+            <th>Nama Penghubung</th>
             <th></th>
             <th></th>
         </tr>
@@ -13,8 +12,7 @@
         @foreach ($data as $i => $row)
         <tr>
             <td>{{ ++$i }}</td>
-            <td>{{ $row->name }}</td>
-            <td>{{ $row->email }}</td>
+            <td>{{ $row->values }}</td>
             <td class="pointer text-center detail_data" data-id="{{ $row->id }}">
                 Ubah
             </td>

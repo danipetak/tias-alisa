@@ -67,6 +67,7 @@
                         @endif
                         <div id="topbar-notification">
                             <div class="alert alert-success" style="display: none" id="notif-success"></div>
+                            <div class="alert alert-danger" style="display: none" id="notif-error"></div>
                         </div>
 
                         <h1 class="page-title my-2">@yield('title')</h1>
