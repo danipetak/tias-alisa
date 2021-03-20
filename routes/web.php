@@ -30,8 +30,18 @@ Route::get('/penghubung-rekening/show', 'Master\Account\PenghubungRekening@show'
 Route::post('/penghubung-rekening/show', 'Master\Account\PenghubungRekening@detail')->name('penghubung_rekening.detail');
 Route::delete('/penghubung-rekening/show', 'Master\Account\PenghubungRekening@destroy')->name('penghubung_rekening.destroy');
 
-Route::get('/arus-kas', 'Master\Account\ArusKas@index')->name('arus_kas.index');
-Route::post('/arus-kas', 'Master\Account\ArusKas@store')->name('arus_kas.store');
-Route::get('/arus-kas/show', 'Master\Account\ArusKas@show')->name('arus_kas.show');
-Route::post('/arus-kas/show', 'Master\Account\ArusKas@detail')->name('arus_kas.detail');
-Route::delete('/arus-kas/show', 'Master\Account\ArusKas@destroy')->name('arus_kas.destroy');
+Route::get('/rekening-aruskas', 'Master\Account\ArusKas@index')->name('rekening_aruskas.index');
+Route::post('/rekening-aruskas', 'Master\Account\ArusKas@store')->name('rekening_aruskas.store');
+Route::get('/rekening-aruskas/show', 'Master\Account\ArusKas@show')->name('rekening_aruskas.show');
+Route::post('/rekening-aruskas/show', 'Master\Account\ArusKas@detail')->name('rekening_aruskas.detail');
+Route::delete('/rekening-aruskas/show', 'Master\Account\ArusKas@destroy')->name('rekening_aruskas.destroy');
+
+Route::get('/rekening-akuntansi', 'Master\Account\RekeningAkuntansi@index')->name('rekening.index');
+Route::get('/rekening-akuntansi/show', 'Master\Account\RekeningAkuntansi@show')->name('rekening.show');
+
+Route::get('/periode-akuntansi', 'Master\Data\PeriodeAkuntansi@index')->name('periode.index');
+Route::post('/periode-akuntansi', 'Master\Data\PeriodeAkuntansi@store')->name('periode.store');
+Route::patch('/periode-akuntansi', 'Master\Data\PeriodeAkuntansi@update')->name('periode.update');
+Route::delete('/periode-akuntansi', 'Master\Data\PeriodeAkuntansi@destroy')->name('periode.destroy');
+Route::get('/periode-akuntansi/show', 'Master\Data\PeriodeAkuntansi@show')->name('periode.show');
+Route::get('/periode-akuntansi/info', 'Master\Data\PeriodeAkuntansi@info')->name('periode.info');

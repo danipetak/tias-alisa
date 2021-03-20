@@ -27,6 +27,8 @@ $(document).ready(function() {
                 $('#topbar-notification').fadeIn();
                 setTimeout(function() {
                     $('#topbar-notification').fadeOut();
+                    document.getElementById('notif-error').style    =   'display: none';
+                    document.getElementById('notif-success').style  =   'display: none';
                 }, 2000)
             },
 
@@ -37,6 +39,8 @@ $(document).ready(function() {
                 $('#topbar-notification').fadeIn();
                 setTimeout(function() {
                     $('#topbar-notification').fadeOut();
+                    document.getElementById('notif-error').style    =   'display: none';
+                    document.getElementById('notif-success').style  =   'display: none';
                 }, 2000)
             }
 
@@ -98,6 +102,8 @@ $(document).ready(function() {
                 $('#topbar-notification').fadeIn();
                 setTimeout(function() {
                     $('#topbar-notification').fadeOut();
+                    document.getElementById('notif-error').style    =   'display: none';
+                    document.getElementById('notif-success').style  =   'display: none';
                 }, 2000)
             },
 

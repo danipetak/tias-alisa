@@ -31,6 +31,7 @@ class PenghubungRekening extends Controller
     {
         return  Setup::where('slug', 'link')
                 ->where('id', $request->row_id)
+                ->where('status', 1)
                 ->first();
     }
 
@@ -39,7 +40,9 @@ class PenghubungRekening extends Controller
         $data   =   Setup::select('id')
                     ->where('slug', 'link')
                     ->where('id', $request->x_code)
+                    ->where('status', 1)
                     ->first();
+
         if ($data) {
             $this->validate($request, [
                 'nama_penghubung'   =>  'required|string|max:100|unique:setups,values, ' . $data->id . ',id'
@@ -49,25 +52,28 @@ class PenghubungRekening extends Controller
             $links->values  =   $request->nama_penghubung ;
             $links->save() ;
         } else {
-            $this->validate($request, [
-                'nama_penghubung'   =>  'required|string|max:100|unique:setups,values'
-            ]);
+            if (!$request->x_code) {
+                $this->validate($request, [
+                    'nama_penghubung'   =>  'required|string|max:100|unique:setups,values'
+                ]);
 
-            $links          =   new Setup ;
-            $links->slug    =   'link' ;
-            $links->values  =   $request->nama_penghubung ;
-            $links->save() ;
+                $links          =   new Setup ;
+                $links->slug    =   'link' ;
+                $links->values  =   $request->nama_penghubung ;
+                $links->save() ;
+            }
         }
     }
 
     public function destroy(Request $request)
     {
         $this->validate($request, [
-            'row_id'    =>  ['required', Rule::exists('setups', 'id')->where('slug', 'link')]
+            'row_id'    =>  ['required', Rule::exists('setups', 'id')->where('status', 1)->where('slug', 'link')]
         ]);
 
         return  Setup::where('id', $request->row_id)
                 ->where('slug', 'link')
+                ->where('status', 1)
                 ->delete();
     }
 }

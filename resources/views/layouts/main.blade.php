@@ -55,6 +55,8 @@
                             </form>
                         </div>
 
+                        <div id="show_periode"></div>
+
                         @include('layouts.sidebar')
                     </div>
 
@@ -80,10 +82,15 @@
 
         <footer>
             <div class="footer">
-                &copy; 2020 - {{ date('Y') }}. ALISA IDN. <a href="https://pdki-indonesia.dgip.go.id/detail/EC00202001044?type=copyright&keyword=EC00202001044">Hak Cipta Dilindungi Undang-Undang</a>
+                &copy; 2019 - {{ date('Y') }}. ALISA IDN. <a href="https://pdki-indonesia.dgip.go.id/detail/EC00202001044?type=copyright&keyword=EC00202001044">Hak Cipta Terdaftar pada Direktorat Jendral Kekayaan Intelektual Republik Indonesia.</a>
             </div>
         </footer>
 
         @yield('footer')
+        <script type="text/javascript">
+        $(document).ready(function() {
+            $('#show_periode').load("{{ route('periode.info') }}");
+        });
+        </script>
     </body>
 </html>

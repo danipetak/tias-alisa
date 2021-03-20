@@ -5,13 +5,13 @@
 @section('footer')
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#show_data').load("{{ route('arus_kas.show') }}");
+    $('#show_data').load("{{ route('rekening_aruskas.show') }}");
 
     $(document).on('click','.detail_data',function(){
         var row_id  =   $(this).data("id");
 
         $.ajax({
-            url: "{{ route('arus_kas.detail') }}",
+            url: "{{ route('rekening_aruskas.detail') }}",
             type:"POST",
             data:{
                 "_token": "{{ csrf_token() }}",
@@ -35,7 +35,7 @@ $(document).ready(function() {
         var row_id  =   $(this).data("id");
 
         $.ajax({
-            url: "{{ route('arus_kas.destroy') }}",
+            url: "{{ route('rekening_aruskas.destroy') }}",
             type:"DELETE",
             data:{
                 "_token": "{{ csrf_token() }}",
@@ -46,13 +46,15 @@ $(document).ready(function() {
                 $('#nama_arus_kas').val('');
                 $("[name=aliran]").prop('checked', false);
                 $("[name=kategori]").prop('checked', false);
-                $('#show_data').load("{{ route('arus_kas.show') }}");
+                $('#show_data').load("{{ route('rekening_aruskas.show') }}");
 
                 document.getElementById('notif-success').innerHTML  =   'Hapus data arus kas berhasil';
                 document.getElementById('notif-success').style      =   '';
                 $('#topbar-notification').fadeIn();
                 setTimeout(function() {
                     $('#topbar-notification').fadeOut();
+                    document.getElementById('notif-error').style    =   'display: none';
+                    document.getElementById('notif-success').style  =   'display: none';
                 }, 2000)
             },
 
@@ -63,6 +65,8 @@ $(document).ready(function() {
                 $('#topbar-notification').fadeIn();
                 setTimeout(function() {
                     $('#topbar-notification').fadeOut();
+                    document.getElementById('notif-error').style    =   'display: none';
+                    document.getElementById('notif-success').style  =   'display: none';
                 }, 2000)
             }
 
@@ -88,7 +92,7 @@ $(document).ready(function() {
         var kategori        =   $("[name=kategori]:checked").val();
 
         $.ajax({
-            url: "{{ route('arus_kas.store') }}",
+            url: "{{ route('rekening_aruskas.store') }}",
             type:"POST",
             data:{
                 "_token": "{{ csrf_token() }}",
@@ -103,13 +107,15 @@ $(document).ready(function() {
                 $('#nama_arus_kas').val('');
                 $("[name=aliran]").prop('checked', false);
                 $("[name=kategori]").prop('checked', false);
-                $('#show_data').load("{{ route('arus_kas.show') }}");
+                $('#show_data').load("{{ route('rekening_aruskas.show') }}");
 
                 document.getElementById('notif-success').innerHTML  =   'Manipulasi data arus kas berhasil';
                 document.getElementById('notif-success').style      =   '';
                 $('#topbar-notification').fadeIn();
                 setTimeout(function() {
                     $('#topbar-notification').fadeOut();
+                    document.getElementById('notif-error').style    =   'display: none';
+                    document.getElementById('notif-success').style  =   'display: none';
                 }, 2000)
             },
 

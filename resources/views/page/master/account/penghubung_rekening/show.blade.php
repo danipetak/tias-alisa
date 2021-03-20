@@ -13,11 +13,11 @@
         <tr>
             <td>{{ ++$i }}</td>
             <td>{{ $row->values }}</td>
-            <td class="pointer text-center detail_data" data-id="{{ $row->id }}">
-                Ubah
+            <td @if ($row->status == 1) class="pointer text-center detail_data" data-id="{{ $row->id }}" @endif>
+                @if ($row->status == 1) Ubah @endif
             </td>
-            <td class="pointer text-center hapus_data" data-id="{{ $row->id }}">
-                Hapus
+            <td @if ($row->status == 1) class="pointer text-center hapus_data" data-id="{{ $row->id }}" @endif>
+                @if ($row->status == 1) Hapus @endif
             </td>
         </tr>
         @endforeach

@@ -18,9 +18,19 @@
                 Penghubung Rekening
             </li>
         </a>
-        <a href="{{ route('arus_kas.index') }}">
-            <li class="{{ request()->routeIs('arus_kas.index') ? 'bg-active' : '' }}">
-                Arus Kas
+        <a href="{{ route('periode.index') }}">
+            <li class="{{ request()->routeIs('periode.index') ? 'bg-active' : '' }}">
+                Periode Akuntansi
+            </li>
+        </a>
+        <a href="{{ route('rekening_aruskas.index') }}">
+            <li class="{{ request()->routeIs('rekening_aruskas.index') ? 'bg-active' : '' }}">
+                Rekening Arus Kas
+            </li>
+        </a>
+        <a href="{{ route('rekening.index') }}">
+            <li class="{{ request()->routeIs('rekening.index') ? 'bg-active' : '' }}">
+                Rekening Akuntansi
             </li>
         </a>
     </ul>
