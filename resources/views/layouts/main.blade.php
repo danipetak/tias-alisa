@@ -29,11 +29,7 @@
                                 <b>Totally Interconnect Accounting System</b>
                             @endguest
                             @auth
-                                <a href="{{ route('index') }}">Home</a> |
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
+                                <a href="{{ route('index') }}">Home</a>
                             @endauth
                         </div>
                     </div>
@@ -69,6 +65,9 @@
                                 {{ session('error') }}
                             </div>
                         @endif
+                        <div id="topbar-notification">
+                            <div class="alert alert-success" style="display: none" id="notif-success"></div>
+                        </div>
 
                         <h1 class="page-title my-2">@yield('title')</h1>
                         @yield('content')

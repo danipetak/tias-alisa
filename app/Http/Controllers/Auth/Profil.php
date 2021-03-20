@@ -33,7 +33,9 @@ class Profil extends Controller
         $user           =   User::find(Auth::user()->id) ;
         $user->name     =   $request->nama_lengkap ;
         $user->email    =   $request->email ;
+        if ($request->password) {
         $user->password =   Hash::make($request->passsword) ;
+        }
         $user->save() ;
 
         return back()->with('status', 'Ubah profil berhasil') ;

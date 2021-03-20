@@ -17,3 +17,9 @@ Route::patch('/profil', 'Auth\Profil@update')->name('profil.update');
 
 Route::get('/profil-perusahaan', 'Master\Data\ProfilPerusahaan@index')->name('profil_perusahaan.index');
 Route::post('/profil-perusahaan', 'Master\Data\ProfilPerusahaan@store')->name('profil_perusahaan.store');
+
+Route::get('/daftar-pengguna', 'Master\Data\DataPengguna@index')->name('pengguna.index');
+Route::post('/daftar-pengguna', 'Master\Data\DataPengguna@store')->name('pengguna.store');
+Route::get('/daftar-pengguna/show', 'Master\Data\DataPengguna@show')->name('pengguna.show');
+Route::post('/daftar-pengguna/show', 'Master\Data\DataPengguna@detail')->name('pengguna.detail');
+Route::delete('/daftar-pengguna/show', 'Master\Data\DataPengguna@destroy')->name('pengguna.destroy');

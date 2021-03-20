@@ -2,6 +2,10 @@ body {
     background-color: #afafaf;
 }
 
+table {
+    border-collapse: collapse;
+}
+
 header{
     background-color: #333;
     position: fixed;
@@ -41,6 +45,23 @@ main {
 
 .container {
     padding: 10px
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.table {
+    width: 100%;
+}
+
+.table th {
+    text-align: left;
+}
+
+table, th, td {
+    border: 1px solid #a5a5a5;
+    padding: 2px 5px;
 }
 
 footer{
