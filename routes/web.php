@@ -29,3 +29,9 @@ Route::post('/penghubung-rekening', 'Master\Account\PenghubungRekening@store')->
 Route::get('/penghubung-rekening/show', 'Master\Account\PenghubungRekening@show')->name('penghubung_rekening.show');
 Route::post('/penghubung-rekening/show', 'Master\Account\PenghubungRekening@detail')->name('penghubung_rekening.detail');
 Route::delete('/penghubung-rekening/show', 'Master\Account\PenghubungRekening@destroy')->name('penghubung_rekening.destroy');
+
+Route::get('/arus-kas', 'Master\Account\ArusKas@index')->name('arus_kas.index');
+Route::post('/arus-kas', 'Master\Account\ArusKas@store')->name('arus_kas.store');
+Route::get('/arus-kas/show', 'Master\Account\ArusKas@show')->name('arus_kas.show');
+Route::post('/arus-kas/show', 'Master\Account\ArusKas@detail')->name('arus_kas.detail');
+Route::delete('/arus-kas/show', 'Master\Account\ArusKas@destroy')->name('arus_kas.destroy');

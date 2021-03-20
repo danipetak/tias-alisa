@@ -119,8 +119,7 @@ $(document).ready(function() {
 
     <div class="form-group">
         Nama Penghubung
-        <input type="text" name="nama_penghubung" class="form-control" value="{{ old('nama_penghubung') }}" id="nama_penghubung" placeholder="Tuliskan Nama Penghubung" autocomplete="off">
-        @error('nama_penghubung') <div class="text-danger">{{ $message }}</div> @enderror
+        <input type="text" name="nama_penghubung" class="form-control" id="nama_penghubung" placeholder="Tuliskan Nama Penghubung" autocomplete="off">
     </div>
 
     <div class="form-group text-right">

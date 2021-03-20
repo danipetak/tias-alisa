@@ -18,5 +18,10 @@
                 Penghubung Rekening
             </li>
         </a>
+        <a href="{{ route('arus_kas.index') }}">
+            <li class="{{ request()->routeIs('arus_kas.index') ? 'bg-active' : '' }}">
+                Arus Kas
+            </li>
+        </a>
     </ul>
 </div>
