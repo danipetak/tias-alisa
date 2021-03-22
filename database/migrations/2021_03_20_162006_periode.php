@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Setup extends Migration
+class Periode extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class Setup extends Migration
      */
     public function up()
     {
-        Schema::create('setups', function (Blueprint $table) {
+        Schema::create('periods', function (Blueprint $table) {
             $table->id();
-            $table->string('slug', 20)->nullable();
-            $table->string('values', 100)->nullable();
-            $table->json('json_content')->nullable();
+            $table->date('start')->nullable();
+            $table->date('end')->nullable();
             $table->timestamps();
-            $table->integer('status')->nullable()->default(1);
+            $table->softDeletes();
+            $table->integer('status')->nullable();
         });
     }
 
@@ -30,6 +30,6 @@ class Setup extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('setups');
+        Schema::dropIfExists('periods');
     }
 }

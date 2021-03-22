@@ -190,6 +190,10 @@ select {
     border-color: #565e64;
 }
 
+.w-100 {
+    width: 100%!important;
+}
+
 .row {
     --bs-gutter-x: 0;
     --bs-gutter-y: 0;
@@ -211,6 +215,11 @@ select {
 
 .col {
     flex: 1 0 0%;
+}
+
+.col-auto {
+    flex: 0 0 auto;
+    width: auto;
 }
 
 .col-1 {

@@ -1,17 +1,17 @@
 @extends('layouts.main')
 
-@section('title', 'Daftar Pengguna')
+@section('title', 'Penghubung Rekening')
 
 @section('footer')
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#show_data').load("{{ route('pengguna.show') }}");
+    $('#show_data').load("{{ route('penghubung_rekening.show') }}");
 
     $(document).on('click','.hapus_data',function(){
         var row_id  =   $(this).data("id");
 
         $.ajax({
-            url: "{{ route('pengguna.destroy') }}",
+            url: "{{ route('penghubung_rekening.destroy') }}",
             type:"DELETE",
             data:{
                 "_token": "{{ csrf_token() }}",
@@ -19,13 +19,10 @@ $(document).ready(function() {
             },
             success:function(data){
                 $('#x_code').val('');
-                $('#nama_lengkap').val('');
-                $('#email').val('');
-                $('#password').val('');
-                $('#password_confirmation').val('');
-                $('#show_data').load("{{ route('pengguna.show') }}");
+                $('#nama_penghubung').val('');
+                $('#show_data').load("{{ route('penghubung_rekening.show') }}");
 
-                document.getElementById('notif-success').innerHTML  =   'Hapus pengguna berhasil';
+                document.getElementById('notif-success').innerHTML  =   'Hapus data penghubung rekening berhasil';
                 document.getElementById('notif-success').style      =   '';
                 $('#topbar-notification').fadeIn();
                 setTimeout(function() {
@@ -35,6 +32,18 @@ $(document).ready(function() {
                 }, 2000)
             },
 
+            error:function(response) {
+
+                document.getElementById('notif-error').innerHTML  =   'Terjadi kesalahan dalam hapus data penghubung rekening';
+                document.getElementById('notif-error').style      =   '';
+                $('#topbar-notification').fadeIn();
+                setTimeout(function() {
+                    $('#topbar-notification').fadeOut();
+                    document.getElementById('notif-error').style    =   'display: none';
+                    document.getElementById('notif-success').style  =   'display: none';
+                }, 2000)
+            }
+
         });
     });
 
@@ -42,7 +51,7 @@ $(document).ready(function() {
         var row_id  =   $(this).data("id");
 
         $.ajax({
-            url: "{{ route('pengguna.detail') }}",
+            url: "{{ route('penghubung_rekening.detail') }}",
             type:"POST",
             data:{
                 "_token": "{{ csrf_token() }}",
@@ -52,10 +61,7 @@ $(document).ready(function() {
                 $("html, body").stop().animate({scrollTop:0}, 500, 'swing');
 
                 $('#x_code').val(data.id);
-                $('#nama_lengkap').val(data.name);
-                $('#email').val(data.email);
-                $('#password').val('');
-                $('#password_confirmation').val('');
+                $('#nama_penghubung').val(data.values);
                 document.getElementById('submit').innerHTML =   'Ubah' ;
                 document.getElementById('clear').style      =   '' ;
             },
@@ -67,43 +73,31 @@ $(document).ready(function() {
         document.getElementById('submit').innerHTML =   'Submit' ;
         document.getElementById('clear').style      =   'display: none' ;
         $('#x_code').val('');
-        $('#nama_lengkap').val('');
-        $('#email').val('');
-        $('#password').val('');
-        $('#password_confirmation').val('');
+        $('#nama_penghubung').val('');
     });
 
     $('#submit').click(function(e){
         e.preventDefault();
         $(document).find("span.text-danger").remove();
 
-        var x_code                  =   $('#x_code').val();
-        var nama_lengkap            =   $('#nama_lengkap').val();
-        var email                   =   $('#email').val();
-        var password                =   $('#password').val();
-        var password_confirmation   =   $('#password_confirmation').val();
+        var x_code          =   $('#x_code').val();
+        var nama_penghubung =   $('#nama_penghubung').val();
 
         $.ajax({
-            url: "{{ route('pengguna.store') }}",
+            url: "{{ route('penghubung_rekening.store') }}",
             type:"POST",
             data:{
                 "_token": "{{ csrf_token() }}",
                 x_code: x_code,
-                nama_lengkap: nama_lengkap,
-                email: email,
-                password: password,
-                password_confirmation: password_confirmation
+                nama_penghubung: nama_penghubung
             },
 
             success:function(response){
                 $('#x_code').val('');
-                $('#nama_lengkap').val('');
-                $('#email').val('');
-                $('#password').val('');
-                $('#password_confirmation').val('');
-                $('#show_data').load("{{ route('pengguna.show') }}");
+                $('#nama_penghubung').val('');
+                $('#show_data').load("{{ route('penghubung_rekening.show') }}");
 
-                document.getElementById('notif-success').innerHTML  =   'Manipulasi daftar pengguna berhasil';
+                document.getElementById('notif-success').innerHTML  =   'Manipulasi data penghubung rekening berhasil';
                 document.getElementById('notif-success').style      =   '';
                 $('#topbar-notification').fadeIn();
                 setTimeout(function() {
@@ -126,42 +120,19 @@ $(document).ready(function() {
 @endsection
 
 @section('content')
-<div class="border p-2">
-    <div class="text-bold mb-2" id='title'>Tambah Pengguna</div>
-
+<div class="border p-2 mb-2">
     <input type="hidden" name="x_code" id="x_code">
-    <div class="row mb-2">
-        <div class="col pr-1">
-            <div class="form-group">
-                Nama Lengkap
-                <input type="text" name="nama_lengkap" class="form-control" id="nama_lengkap" placeholder="Tuliskan Nama Lengkap" autocomplete="off">
-            </div>
 
-            <div class="form-group">
-                E-Mail
-                <input type="email" name="email" class="form-control" id="email" placeholder="Tuliskan E-Mail" autocomplete="off">
-            </div>
-        </div>
-
-        <div class="col pl-1">
-            <div class="form-group">
-                Password
-                <input type="password" name="password" class="form-control" id="password" placeholder="Tuliskan Password" autocomplete="off">
-            </div>
-
-            <div class="form-group">
-                Konfirmasi Password
-                <input id="password_confirmation" type="password" class="form-control" placeholder="Tuliskan Konfirmasi Password" name="password_confirmation">
-            </div>
-        </div>
+    <div class="form-group">
+        Nama Penghubung
+        <input type="text" name="nama_penghubung" class="form-control" id="nama_penghubung" placeholder="Tuliskan Nama Penghubung" autocomplete="off">
     </div>
 
     <div class="form-group text-right">
         <button type="submit" class="btn btn-secondary mr-1" id='clear' style="display: none">Clear</button>
-        <button type="submit" id='submit' class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" id='submit'>Submit</button>
     </div>
-
 </div>
 
-<div class="my-3" id='show_data'></div>
+<div id="show_data"></div>
 @endsection
