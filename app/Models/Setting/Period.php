@@ -4,6 +4,7 @@ namespace App\Models\Setting;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Tanggal;
 
 class Period extends Model
 {
@@ -12,12 +13,13 @@ class Period extends Model
 
     public function getMulaiAttribute()
     {
-        return date('d F Y', strtotime($this->start)) ;
+
+        return Tanggal::date($this->start);
     }
 
     public function getSelesaiAttribute()
     {
-        return date('d F Y', strtotime($this->end));
+        return Tanggal::date($this->end);
     }
 
     public function getStatusPeriodeAttribute()
