@@ -47,3 +47,6 @@ Route::patch('/periode-akuntansi', 'Master\Data\PeriodeAkuntansi@update')->name(
 Route::delete('/periode-akuntansi', 'Master\Data\PeriodeAkuntansi@destroy')->name('periode.destroy');
 Route::get('/periode-akuntansi/show', 'Master\Data\PeriodeAkuntansi@show')->name('periode.show');
 Route::get('/periode-akuntansi/info', 'Master\Data\PeriodeAkuntansi@info')->name('periode.info');
+
+Route::get('/saldo-awal', 'Transaksi\SaldoAwal@index')->name('saldoawal.index');
+Route::get('/saldo-awal/show', 'Transaksi\SaldoAwal@show')->name('saldoawal.show');

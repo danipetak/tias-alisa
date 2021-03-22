@@ -34,4 +34,12 @@
             </li>
         </a>
     </ul>
+
+    <ul class="mb-2">
+        <a href="{{ route('saldoawal.index') }}">
+            <li class="{{ request()->routeIs('saldoawal.index') ? 'bg-active' : '' }}">
+                Saldo Awal
+            </li>
+        </a>
+    </ul>
 </div>

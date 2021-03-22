@@ -60,18 +60,18 @@
             row +=  "<td>";
             row +=  "<input type='hidden' name='x_code[]' value='" + row_id + "'>";
             row +=  "<small>Tambah Rekening " + ((row_level == '3') || (endpoin == '1') ? 'Transaksi' : 'Header') + "</small>";
-            row +=  "<div class='row'><div class='col-auto'>" + row_kode + "</div><div class='col'><input type='text' name='kode[]' class='form-text w-100' autocomplete='off' placeholder='Tuliskan Kode'></div></div></td>";
+            row +=  "<div class='row'><div class='col-auto'>" + row_kode + "</div><div class='col'><input type='text' name='kode[]' class='form-text bg-active w-100' autocomplete='off' placeholder='Tuliskan Kode'></div></div></td>";
             row +=  "<td>";
-            row +=  "<input type='text' name='nama[]' class='form-text form-control border-bottom' autocomplete='off' placeholder='Tuliskan Nama Rekening'>";
+            row +=  "<input type='text' name='nama[]' class='form-text bg-active form-control border-bottom' autocomplete='off' placeholder='Tuliskan Nama Rekening'>";
             if ((row_level == '3') || (endpoin == '1')) {
-            row +=  "<select class='pointer form-text w-100' name='link[]'>";
+            row +=  "<select class='pointer form-text bg-active w-100' name='link[]'>";
             row +=  "<option value=''>Tanpa Penghubung Rekening</option>";
             row +=  "{!! $keylink !!}";
             row +=  "</select>";
             }
             row +=  "</td>";
             row +=  "<td>";
-            row +=  "<select class='pointer form-text w-100' name='sn[]'>";
+            row +=  "<select class='pointer form-text bg-active w-100' name='sn[]'>";
             row +=  "<option value='db'>Debit</option>";
             row +=  "<option value='cr'>Kredit</option>";
             row +=  "</select>";
