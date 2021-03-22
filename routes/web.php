@@ -39,7 +39,7 @@ Route::delete('/rekening-aruskas/show', 'Master\Account\ArusKas@destroy')->name(
 Route::get('/rekening-akuntansi', 'Master\Account\RekeningAkuntansi@index')->name('rekening.index');
 Route::post('/rekening-akuntansi', 'Master\Account\RekeningAkuntansi@store')->name('rekening.store');
 Route::get('/rekening-akuntansi/show', 'Master\Account\RekeningAkuntansi@show')->name('rekening.show');
-Route::post('/rekening-akuntansi/show', 'Master\Account\RekeningAkuntansi@detail')->name('rekening.detail');
+Route::delete('/rekening-akuntansi/show', 'Master\Account\RekeningAkuntansi@destroy')->name('rekening.destroy');
 
 Route::get('/periode-akuntansi', 'Master\Data\PeriodeAkuntansi@index')->name('periode.index');
 Route::post('/periode-akuntansi', 'Master\Data\PeriodeAkuntansi@store')->name('periode.store');

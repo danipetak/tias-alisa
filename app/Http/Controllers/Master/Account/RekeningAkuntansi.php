@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting\Account\Account;
 use App\Models\Setting\Period;
 use App\Models\Setting\Setup;
+use App\Rules\Account\KondisiRekening;
 use Illuminate\Http\Request;
 
 class RekeningAkuntansi extends Controller
@@ -43,11 +44,6 @@ class RekeningAkuntansi extends Controller
         }
 
         return view('page.master.account.chartofaccount.show', compact('data', 'keylink'));
-    }
-
-    public function detail(Request $request)
-    {
-        # code...
     }
 
     public function store(Request $request)
@@ -94,5 +90,14 @@ class RekeningAkuntansi extends Controller
         }
 
         return back()->with('status', 'Tambah rekening akuntansi berhasil') ;
+    }
+
+    public function destroy(Request $request)
+    {
+        $this->validate($request, [
+            'row_id'    =>  ['required', new KondisiRekening]
+        ]);
+
+        Account::where('id', $request->row_id)->delete() ;
     }
 }

@@ -5,7 +5,6 @@
             <th>Nama Rekening</th>
             <th>S.N.</th>
             <th></th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -19,10 +18,7 @@
                 </div>
             </td>
             <td>{{ $row->saldo_normal }}</td>
-            <td @if (($row->status == 1) AND (Akun::turunan_akun($row->id))) class="text-center" @endif>
-                @if (($row->status == 1) AND (Akun::turunan_akun($row->id))) Ubah @endif
-            </td>
-            <td @if (($row->status == 1) AND (Akun::turunan_akun($row->id))) class="text-center" @endif>
+            <td @if (($row->status == 1) AND (Akun::turunan_akun($row->id))) data-id="{{ $row->id }}" class="hapus_akun pointer text-center" @endif>
                 @if (($row->status == 1) AND (Akun::turunan_akun($row->id))) Hapus @endif
             </td>
         </tr>

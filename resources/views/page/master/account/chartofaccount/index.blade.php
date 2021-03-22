@@ -12,6 +12,44 @@
             document.getElementById('submit').style =   'border: 3px solid #333' ;
         });
 
+        $(document).on('click','.hapus_akun', function(){
+            var row_id      =   $(this).data('id') ;
+
+            $.ajax({
+                url: "{{ route('rekening.destroy') }}",
+                type:"DELETE",
+                data:{
+                    "_token": "{{ csrf_token() }}",
+                    row_id:row_id
+                },
+                success:function(data){
+                    $("html, body").stop().animate({scrollTop:0}, 500, 'swing');
+
+                    document.getElementById('notif-success').innerHTML  =   'Hapus data rekening akuntansi berhasil';
+                    document.getElementById('notif-success').style      =   '';
+                    $('#show_data').load("{{ route('rekening.show') }}");
+                    $('#topbar-notification').fadeIn();
+                    setTimeout(function() {
+                        $('#topbar-notification').fadeOut();
+                        document.getElementById('notif-error').style    =   'display: none';
+                        document.getElementById('notif-success').style  =   'display: none';
+                    }, 2000) ;
+                },
+
+                error:function(response) {
+                    document.getElementById('notif-error').innerHTML  =   'Terjadi kesalahan saat hapus data rekening akuntansi';
+                    document.getElementById('notif-error').style      =   '';
+                    $('#topbar-notification').fadeIn();
+                    setTimeout(function() {
+                        $('#topbar-notification').fadeOut();
+                        document.getElementById('notif-error').style    =   'display: none';
+                        document.getElementById('notif-success').style  =   'display: none';
+                    }, 2000) ;
+                },
+
+            });
+        });
+
         $(document).on('click','.tambah_data', function(e){
             var row_id      =   $(this).data('id');
             var row_kode    =   $(this).data('kode');
@@ -43,7 +81,7 @@
             row +=  "<input type='hidden' value='' name='stop[]'>";
             }
             row +=  "</td>";
-            row +=  "<td colspan='2'>";
+            row +=  "<td>";
             row +=  "<button type='button' class='up_view btn btn-block btn-link'>Selesaikan</button>";
             row +=  "</td>";
             row +=  "</tr>";

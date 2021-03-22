@@ -33,6 +33,16 @@ class Account extends Model
 
     public static function turunan_akun($id)
     {
-        return (Account::where('parent', $id)->count() > 0) ? FALSE : TRUE ;
+        $status =   FALSE ;
+        if (Account::where('parent', $id)->count() < 1) {
+            // Yang dicomment diaktifkan saat sudah ada header transaksi
+            // if (condition) {
+            //     # code...
+            // } else {
+                $status =   TRUE ;
+            // }
+        }
+
+        return $status ;
     }
 }
