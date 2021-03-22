@@ -10,7 +10,7 @@ class SaldoAwal extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'periode']);
     }
 
     public function index()
@@ -29,5 +29,20 @@ class SaldoAwal extends Controller
         }
 
         return view('page.transaksi.saldo_awal.index', compact('data', 'debit', 'kredit'));
+    }
+
+    public function store(Request $request)
+    {
+        $count  =   count($request->x_code) ;
+
+        if ($count > 0) {
+            for ($x=0; $x < $count; $x++) {
+                $saldo                      =   Account::find($request->x_code[$x]) ;
+                $saldo->begining_balance    =   $request->nom[$x] ?? 0 ;
+                $saldo->save() ;
+            }
+        }
+
+        return back()->with('status', 'Saldo awal berhasil diperbaharui');
     }
 }

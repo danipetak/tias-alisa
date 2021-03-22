@@ -49,3 +49,4 @@ Route::get('/periode-akuntansi/show', 'Master\Data\PeriodeAkuntansi@show')->name
 Route::get('/periode-akuntansi/info', 'Master\Data\PeriodeAkuntansi@info')->name('periode.info');
 
 Route::get('/saldo-awal', 'Transaksi\SaldoAwal@index')->name('saldoawal.index');
+Route::post('/saldo-awal', 'Transaksi\SaldoAwal@store')->name('saldoawal.store');
