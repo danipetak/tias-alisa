@@ -228,6 +228,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Setting' =>  App\Models\Setting\Setup::class,
         'Periode' =>  App\Models\Setting\Period::class,
+        'Akun' =>  App\Models\Setting\Account\Account::class,
     ],
 
 ];

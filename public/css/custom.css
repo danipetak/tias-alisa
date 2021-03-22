@@ -16,6 +16,7 @@ table {
 header{
     background-color: #333;
     position: fixed;
+    z-index: 999;
     width: 100%;
     height: var(--header-height);
 }
@@ -96,6 +97,13 @@ table, th, td {
 .radio-toolbar input[type="radio"]:checked+label {
     background-color: var(--color-bg-primary);;
     border-color: var(--color-primary);
+}
+
+.form-text {
+    border: none;
+    padding: 0!important;
+    margin: 0!important;
+    background-color: var(--color-bg-primary);
 }
 
 footer{

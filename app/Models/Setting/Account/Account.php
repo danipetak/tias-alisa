@@ -30,4 +30,9 @@ class Account extends Model
     {
         return $this->belongsTo(Setup::class, 'link_id', 'id');
     }
+
+    public static function turunan_akun($id)
+    {
+        return (Account::where('parent', $id)->count() > 0) ? FALSE : TRUE ;
+    }
 }
