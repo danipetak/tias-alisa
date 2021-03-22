@@ -41,5 +41,10 @@
                 Saldo Awal
             </li>
         </a>
+        <a href="{{ route('jurmalumum.index') }}">
+            <li class="{{ request()->routeIs('jurmalumum.index') ? 'bg-active' : '' }}">
+                Transaksi Jurmal Umum
+            </li>
+        </a>
     </ul>
 </div>

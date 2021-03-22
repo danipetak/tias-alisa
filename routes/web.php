@@ -50,3 +50,5 @@ Route::get('/periode-akuntansi/info', 'Master\Data\PeriodeAkuntansi@info')->name
 
 Route::get('/saldo-awal', 'Transaksi\SaldoAwal@index')->name('saldoawal.index');
 Route::post('/saldo-awal', 'Transaksi\SaldoAwal@store')->name('saldoawal.store');
+
+Route::get('/jurmal-umum', 'Transaksi\JurnalUmum@index')->name('jurmalumum.index');

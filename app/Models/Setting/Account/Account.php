@@ -9,16 +9,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Account extends Model
 {
     use SoftDeletes;
-    protected $appends  =   ['saldo_normal', 'link_akun'];
+    protected $appends  =   ['saldo_normal', 'link_akun', 'ambil_rekening'];
+
+    public function getAmbilRekeningAttribute()
+    {
+        return $this->kode_akun . ' ' . $this->nama_akun;
+    }
 
     public function getSaldoNormalAttribute()
     {
-        if ($this->sn == 'db') {
-            return 'Debit' ;
-        }
-        if ($this->sn == 'cr') {
-            return 'Kredit' ;
-        }
+        return $this->sn == 'db' ? 'Debit' : 'Kredit';
     }
 
     public function getLinkAkunAttribute()
@@ -44,5 +44,19 @@ class Account extends Model
         }
 
         return $status ;
+    }
+
+    public static function daftar_akun($id=FALSE)
+    {
+        $akun   =   Account::where('level', 4)
+                    ->orderBy('kode_akun', 'ASC')
+                    ->get();
+
+        $data   =   '';
+        foreach ($akun as $row) {
+            $data   .=  "<option value='" . $row->id . "' " . ($id == $row->id ? 'selected' : '') . " >" . $row->ambil_rekening . "</option>";
+        }
+
+        return $data;
     }
 }
