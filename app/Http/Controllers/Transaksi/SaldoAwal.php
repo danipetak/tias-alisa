@@ -15,14 +15,19 @@ class SaldoAwal extends Controller
 
     public function index()
     {
-        return view('page.transaksi.saldo_awal.index');
-    }
-
-    public function show()
-    {
         $data   =   Account::orderBy('kode_akun', 'ASC')
                     ->get();
 
-        return view('page.transaksi.saldo_awal.show', compact('data'));
+        $debit  =   0;
+        $kredit =   0;
+        foreach ($data as $row) {
+            if ($row->sn == 'db') {
+                $debit  +=  $row->begining_balance ;
+            } else {
+                $kredit +=  $row->begining_balance ;
+            }
+        }
+
+        return view('page.transaksi.saldo_awal.index', compact('data', 'debit', 'kredit'));
     }
 }
