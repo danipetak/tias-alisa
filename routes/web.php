@@ -52,3 +52,4 @@ Route::get('/saldo-awal', 'Transaksi\SaldoAwal@index')->name('saldoawal.index');
 Route::post('/saldo-awal', 'Transaksi\SaldoAwal@store')->name('saldoawal.store');
 
 Route::get('/jurmal-umum', 'Transaksi\JurnalUmum@index')->name('jurmalumum.index');
+Route::post('/jurmal-umum', 'Transaksi\JurnalUmum@store')->name('jurmalumum.store');

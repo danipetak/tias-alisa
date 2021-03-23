@@ -33,8 +33,6 @@ function hitung() {
                         }) * 100) / 100).toFixed(2);
 
     var result      =   parseFloat(totalDB) - parseFloat(totalCR);
-    var submit      =   document.getElementById('btnPost');
-    var butt        =   document.getElementById('btnSubmit');
     var alert       =   document.getElementById('info-alert');
     var info        =   document.getElementById('info-balance');
 
@@ -42,23 +40,15 @@ function hitung() {
     document.getElementById('data_CR').innerHTML = accounting.formatMoney(totalCR, '');
 
     if (result == 0) {
-        submit.style = '';
         if ((parseFloat(totalDB) > 0) || (parseFloat(totalCR) > 0)) {
             info.innerHTML  = "BALANCE";
             alert.style     = "background-color:#157347;color:#fff";
-            butt.hidden     = false;
-            butt.disabled   = false;
         } else {
             info.innerHTML  = "TIDAK ADA TRANSAKSI";
             alert.style     = "";
-            butt.hidden     = true;
-            butt.disabled   = true;
         }
     } else {
         info.innerHTML  = "NOT BALANCE";
         alert.style     = "background-color:#bb2d3b;color:#fff";
-        submit.style    = 'display:none';
-        butt.hidden     = true;
-        butt.disabled   = true;
     }
 }

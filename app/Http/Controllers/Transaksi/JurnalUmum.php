@@ -21,4 +21,14 @@ class JurnalUmum extends Controller
 
         return view('page.transaksi.jurnal_umum.index', compact('aruskas'));
     }
+
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'tanggal_transaksi' =>  'required',
+            'uraian'            =>  'required',
+            'arus_kas'          =>  'required',
+            'jenis_transaksi'   =>  'required|in:1,0'
+        ]);
+    }
 }

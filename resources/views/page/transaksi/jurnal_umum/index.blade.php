@@ -97,13 +97,12 @@ function deleteRow(rowid) {
         }
         valuesCR.push(parseFloat(angka_cr));
     }
+
     totalCR         =   (Math.round(valuesCR.reduce(function(previousCR, currentCR, index, array){
                             return previousCR + currentCR;
                         }) * 100) / 100).toFixed(2);
 
     var result      =   parseFloat(totalDB) - parseFloat(totalCR);
-    var submit      =   document.getElementById('btnPost');
-    var butt        =   document.getElementById('btnSubmit');
     var alert       =   document.getElementById('info-alert');
     var info        =   document.getElementById('info-balance');
 
@@ -111,26 +110,102 @@ function deleteRow(rowid) {
     document.getElementById('data_CR').innerHTML = accounting.formatMoney(totalCR, '');
 
     if (result == 0) {
-        submit.style = '';
         if ((parseFloat(totalDB) > 0) || (parseFloat(totalCR) > 0)) {
             info.innerHTML  = "BALANCE";
             alert.style     = "background-color:#157347;color:#fff";
-            butt.hidden     = false;
-            butt.disabled   = false;
         } else {
             info.innerHTML  = "TIDAK ADA TRANSAKSI";
             alert.style     = "";
-            butt.hidden     = true;
-            butt.disabled   = true;
         }
     } else {
         info.innerHTML  = "NOT BALANCE";
         alert.style     = "background-color:#bb2d3b;color:#fff";
-        submit.style    = 'display:none';
-        butt.hidden     = true;
-        butt.disabled   = true;
     }
 }
+
+$(document).ready(function() {
+    $('#btnSubmit').click(function(e){
+        e.preventDefault();
+        $(document).find("span.text-danger").remove();
+
+        var totalDB     =   0;
+        var DB_nom      =   document.getElementsByClassName("db");
+        var valuesDB    =   [];
+        for(var i = 0; i < DB_nom.length; ++i) {
+            var dbt     =   DB_nom[i].value;
+            if (dbt === '') {
+                var angka_db    =   0;
+            } else {
+                var angka_db    =   dbt.replace(/,/g, '');
+            }
+            valuesDB.push(parseFloat(angka_db));
+        }
+        totalDB         =   (Math.round(valuesDB.reduce(function(previousDB, currentDB, index, array){
+                                return previousDB + currentDB;
+                            }) * 100) / 100).toFixed(2);
+
+        // Calculate Credit
+        var totalCR     =   0;
+        var CR_nom      =   document.getElementsByClassName("cr");
+        var valuesCR    =   [];
+        for(var i = 0; i < CR_nom.length; ++i) {
+            var kdt     =   CR_nom[i].value;
+            if (kdt === '') {
+                var angka_cr    =   0;
+            } else {
+                var angka_cr    =   kdt.replace(/,/g, '');
+            }
+            valuesCR.push(parseFloat(angka_cr));
+        }
+        totalCR         =   (Math.round(valuesCR.reduce(function(previousCR, currentCR, index, array){
+                                return previousCR + currentCR;
+                            }) * 100) / 100).toFixed(2);
+
+        var result      =   parseFloat(totalDB) - parseFloat(totalCR);
+
+        if (result == 0) {
+            var tanggal_transaksi   =   $("#tanggal_transaksi").val();
+            var jenis_transaksi     =   $("input[name=jenis_transaksi]").val();
+            var uraian              =   $("#uraian").val();
+            var arus_kas            =   $("#arus_kas").val();
+            var riwayat_transaksi   =   $("#riwayat_transaksi").val();
+
+            $.ajax({
+                url: "{{ route('jurmalumum.store') }}",
+                type:"POST",
+                data:{
+                    "_token": "{{ csrf_token() }}",
+                    tanggal_transaksi : tanggal_transaksi,
+                    uraian  : uraian,
+                    arus_kas : arus_kas,
+                    jenis_transaksi : jenis_transaksi,
+                    riwayat_transaksi : riwayat_transaksi,
+                },
+
+                success:function(response){
+                    //
+                },
+
+                error: function(response) {
+                    $.each(response.responseJSON.errors,function(field_name,error){
+                        $(document).find('[name='+ field_name +']').after('<span class="text-danger">' + error + '</span>')
+                    });
+                }
+
+            });
+
+        } else {
+            document.getElementById('notif-error').innerHTML  =   'Debit dan kredit tidak seimbang';
+            document.getElementById('notif-error').style      =   '';
+            $('#topbar-notification').fadeIn();
+            setTimeout(function() {
+                $('#topbar-notification').fadeOut();
+                document.getElementById('notif-error').style    =   'display: none';
+                document.getElementById('notif-success').style  =   'display: none';
+            }, 2000) ;
+        }
+    });
+});
 </script>
 @endsection
 
@@ -140,7 +215,6 @@ function deleteRow(rowid) {
         <div class="form-group">
             Tanggal Transaksi <span class="text-danger">*</span>
             <input type="date" name="tanggal_transaksi" class="form-control" value="{{ old('tanggal_transaksi') ?? date('Y-m-d') }}" id="tanggal_transaksi" autocomplete="off">
-            @error('tanggal_transaksi') <div class="text-danger">{{ $message }}</div> @enderror
         </div>
 
         <div class="form-group">
@@ -154,7 +228,6 @@ function deleteRow(rowid) {
                 <input type="radio" name="jenis_transaksi" value="0" id='pembaharuan_transaksi' required>
                 <label for="pembaharuan_transaksi">Perubahan Transaksi</label>
             </div>
-            @error('jenis_transaksi') <div class="small">{{ $message }}</div> @enderror
         </div>
     </div>
 
@@ -171,7 +244,6 @@ function deleteRow(rowid) {
         <div class="form-group">
             Uraian
             <input type="text" name="uraian" class="form-control" value="{{ old('uraian') }}" id="uraian" placeholder="Tuliskan Uraian" autocomplete="off">
-            @error('uraian') <div class="text-danger">{{ $message }}</div> @enderror
         </div>
     </div>
 </div>
@@ -188,7 +260,7 @@ function deleteRow(rowid) {
     <div class="rek-loop">
         <div class="row mb-1">
             <div class="col-6 mr-1">
-                <select class="form-control select2" name="rek[]" required data-width="100%" data-placeholder='Pilih Rekening'>
+                <select class="form-control rek select2" name="rek[]" required data-width="100%" data-placeholder='Pilih Rekening'>
                     <option value=""></option>
                     {!! Akun::daftar_akun() !!}
                 </select>
@@ -221,7 +293,7 @@ function deleteRow(rowid) {
         <div class="col mr-1">
             <div class="form-group">
                 Arus Kas
-                <select class="form-control select2" name="arus_kas" required data-width="100%" data-placeholder='Pilih Arus Kas'>
+                <select class="form-control select2" id='arus_kas' name="arus_kas" required data-width="100%" data-placeholder='Pilih Arus Kas'>
                     <option value=""></option>
                     @foreach ($aruskas as $id => $nama)
                     <option value="{{ $id }}">{{ $nama }}</option>
@@ -231,13 +303,10 @@ function deleteRow(rowid) {
         </div>
 
         <div class="col-2 ml-1">
-            <span style="display:none" id='btnPost'>
-                <div class="form-group">
-                    &nbsp;
-                    <div class="float-right" id="noted"></div>
-                    <button type="submit" id='btnSubmit' class="btn btn-success btn-block float-right submit" disabled hidden>Submit</button>
-                </div>
-            </span>
+            <div class="form-group">
+                &nbsp;
+                <button type="button" id='btnSubmit' class="selesaikan btn btn-success btn-block float-right submit">Submit</button>
+            </div>
         </div>
     </div>
 </div>
