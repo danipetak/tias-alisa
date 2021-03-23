@@ -41,7 +41,7 @@ function addRow() {
     var row = '';
     row += '<div class="row mb-1 column-' + (x) + '">';
     row += '    <div class="col-6 mr-1">';
-    row += "        <select name='rek[]' class='select2 items form-control' required data-placeholder='Pilih Rekening'>";
+    row += "        <select name='rek[]' class='rek select2 items form-control' required data-placeholder='Pilih Rekening'>";
     row += "        <option value=''></option>";
     row += "        {!! Akun::daftar_akun() !!}";
     row += "        </select>";
@@ -102,7 +102,7 @@ function deleteRow(rowid) {
                             return previousCR + currentCR;
                         }) * 100) / 100).toFixed(2);
 
-    var result      =   parseFloat(totalDB) - parseFloat(totalCR);
+    var result      =   totalDB - totalCR;
     var alert       =   document.getElementById('info-alert');
     var info        =   document.getElementById('info-balance');
 
@@ -110,7 +110,7 @@ function deleteRow(rowid) {
     document.getElementById('data_CR').innerHTML = accounting.formatMoney(totalCR, '');
 
     if (result == 0) {
-        if ((parseFloat(totalDB) > 0) || (parseFloat(totalCR) > 0)) {
+        if ((totalDB > 0) || (totalCR > 0)) {
             info.innerHTML  = "BALANCE";
             alert.style     = "background-color:#157347;color:#fff";
         } else {
@@ -127,6 +127,12 @@ $(document).ready(function() {
     $('#btnSubmit').click(function(e){
         e.preventDefault();
         $(document).find("span.text-danger").remove();
+
+        var rekening    =   document.getElementsByClassName("rek");
+        var valRekening =   [];
+        for(var i = 0; i < rekening.length; ++i) {
+            valRekening.push(rekening[i].value);
+        }
 
         var totalDB     =   0;
         var DB_nom      =   document.getElementsByClassName("db");
@@ -161,38 +167,59 @@ $(document).ready(function() {
                                 return previousCR + currentCR;
                             }) * 100) / 100).toFixed(2);
 
-        var result      =   parseFloat(totalDB) - parseFloat(totalCR);
+        var result      =   totalDB - totalCR;
 
         if (result == 0) {
-            var tanggal_transaksi   =   $("#tanggal_transaksi").val();
-            var jenis_transaksi     =   $("input[name=jenis_transaksi]").val();
-            var uraian              =   $("#uraian").val();
-            var arus_kas            =   $("#arus_kas").val();
-            var riwayat_transaksi   =   $("#riwayat_transaksi").val();
+            if ((totalDB != 0) || (totalCR != 0)) {
 
-            $.ajax({
-                url: "{{ route('jurmalumum.store') }}",
-                type:"POST",
-                data:{
-                    "_token": "{{ csrf_token() }}",
-                    tanggal_transaksi : tanggal_transaksi,
-                    uraian  : uraian,
-                    arus_kas : arus_kas,
-                    jenis_transaksi : jenis_transaksi,
-                    riwayat_transaksi : riwayat_transaksi,
-                },
+                var tanggal_transaksi   =   $("#tanggal_transaksi").val();
+                var jenis_transaksi     =   $("input[name=jenis_transaksi]").val();
+                var uraian              =   $("#uraian").val();
+                var arus_kas            =   $("#arus_kas").val();
+                var riwayat_transaksi   =   $("#riwayat_transaksi").val();
 
-                success:function(response){
-                    //
-                },
+                $.ajax({
+                    url: "{{ route('jurmalumum.store') }}",
+                    type:"POST",
+                    data:{
+                        "_token": "{{ csrf_token() }}",
+                        tanggal_transaksi   : tanggal_transaksi,
+                        uraian              : uraian,
+                        arus_kas            : arus_kas,
+                        jenis_transaksi     : jenis_transaksi,
+                        riwayat_transaksi   : riwayat_transaksi,
+                    },
 
-                error: function(response) {
-                    $.each(response.responseJSON.errors,function(field_name,error){
-                        $(document).find('[name='+ field_name +']').after('<span class="text-danger">' + error + '</span>')
-                    });
-                }
+                    success:function(response){
+                        //
+                        document.getElementById('notif-success').innerHTML  =   'Transaksi jurnal umum berhasil ditambahkan';
+                        document.getElementById('notif-success').style      =   '';
+                        $('#topbar-notification').fadeIn();
+                        setTimeout(function() {
+                            $('#topbar-notification').fadeOut();
+                            document.getElementById('notif-error').style    =   'display: none';
+                            document.getElementById('notif-success').style  =   'display: none';
+                        }, 2000) ;
+                    },
 
-            });
+                    error: function(response) {
+                        $.each(response.responseJSON.errors,function(field_name,error){
+                            $(document).find('[name='+ field_name +']').after('<span class="text-danger">' + error + '</span>')
+                        });
+                    }
+
+                });
+
+            } else {
+                document.getElementById('notif-error').innerHTML  =   'Tidak ada transaksi. Isikan daftar rekening beserta nominalnya';
+                document.getElementById('notif-error').style      =   '';
+                $('#topbar-notification').fadeIn();
+                setTimeout(function() {
+                    $('#topbar-notification').fadeOut();
+                    document.getElementById('notif-error').style    =   'display: none';
+                    document.getElementById('notif-success').style  =   'display: none';
+                }, 2000) ;
+            }
 
         } else {
             document.getElementById('notif-error').innerHTML  =   'Debit dan kredit tidak seimbang';

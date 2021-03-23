@@ -32,7 +32,7 @@ function hitung() {
                             return previousCR + currentCR;
                         }) * 100) / 100).toFixed(2);
 
-    var result      =   parseFloat(totalDB) - parseFloat(totalCR);
+    var result      =   totalDB - totalCR;
     var alert       =   document.getElementById('info-alert');
     var info        =   document.getElementById('info-balance');
 
@@ -40,7 +40,7 @@ function hitung() {
     document.getElementById('data_CR').innerHTML = accounting.formatMoney(totalCR, '');
 
     if (result == 0) {
-        if ((parseFloat(totalDB) > 0) || (parseFloat(totalCR) > 0)) {
+        if ((totalDB > 0) || (totalCR > 0)) {
             info.innerHTML  = "BALANCE";
             alert.style     = "background-color:#157347;color:#fff";
         } else {

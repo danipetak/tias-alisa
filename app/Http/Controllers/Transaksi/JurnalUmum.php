@@ -3,8 +3,14 @@
 namespace App\Http\Controllers\Transaksi;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting\Account\Account;
+use App\Models\Setting\Account\Cashflow;
+use App\Models\Setting\Period;
 use App\Models\Setting\Setup;
+use App\Models\Transaksi\Header;
+use App\Models\Transaksi\Headlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JurnalUmum extends Controller
 {
@@ -15,9 +21,7 @@ class JurnalUmum extends Controller
 
     public function index()
     {
-        $aruskas    =   Setup::where('slug', 'link')
-                        ->where('status', 1)
-                        ->pluck('values', 'id');
+        $aruskas    =   Cashflow::pluck('nama', 'id');
 
         return view('page.transaksi.jurnal_umum.index', compact('aruskas'));
     }
@@ -30,5 +34,15 @@ class JurnalUmum extends Controller
             'arus_kas'          =>  'required',
             'jenis_transaksi'   =>  'required|in:1,0'
         ]);
+
+        $json   = $request->valRekening;
+        $trans                      =   new Header ;
+        $trans->user_id             =   Auth::user()->id ;
+        $trans->period_id           =   Period::periode_aktif('id') ;
+        $trans->tanggal_transaksi   =   $request->tanggal_transaksi ;
+        $trans->reff                =   'GJ' ;
+        $trans->nomor               =   Header::nomor_transaksi('GJ') ;
+        $trans->uraian              =   $request->uraian ;
+        $trans->save() ;
     }
 }
