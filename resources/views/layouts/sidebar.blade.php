@@ -46,5 +46,10 @@
                 Transaksi Jurmal Umum
             </li>
         </a>
+        <a href="{{ route('jurmalmasuk.index') }}">
+            <li class="{{ request()->routeIs('jurmalmasuk.index') ? 'bg-active' : '' }}">
+                Transaksi Jurmal Kas Masuk
+            </li>
+        </a>
     </ul>
 </div>
