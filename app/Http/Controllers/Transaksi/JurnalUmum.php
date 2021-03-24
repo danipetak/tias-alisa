@@ -35,7 +35,6 @@ class JurnalUmum extends Controller
             'jenis_transaksi'   =>  'required|in:1,0'
         ]);
 
-        $json   = $request->valRekening;
         $trans                      =   new Header ;
         $trans->user_id             =   Auth::user()->id ;
         $trans->period_id           =   Period::periode_aktif('id') ;
@@ -44,5 +43,21 @@ class JurnalUmum extends Controller
         $trans->nomor               =   Header::nomor_transaksi('GJ') ;
         $trans->uraian              =   $request->uraian ;
         $trans->save() ;
+
+        $rekening   =   json_decode(json_encode($request->valRekening), TRUE);
+        $debit      =   json_decode(json_encode($request->data_db), TRUE);
+        $kredit     =   json_decode(json_encode($request->data_cr), TRUE);
+
+        foreach ($rekening as $x => $row) {
+            $rekening           =   Account::where('id', $row)->first() ;
+            $aruskas            =   (($rekening->link_id == 2) OR ($rekening->link_id == 3) OR ($rekening->link_id ==4)) ? $request->arus_kas : NULL ;
+            $list               =   new Headlist ;
+            $list->header_id    =   $trans->id ;
+            $list->account_id   =   $row ;
+            $list->cashflow_id  =   $aruskas ;
+            $list->debit        =   $debit[$x] ;
+            $list->kredit       =   $kredit[$x] ;
+            $list->save() ;
+        }
     }
 }

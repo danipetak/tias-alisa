@@ -137,6 +137,7 @@ $(document).ready(function() {
         var totalDB     =   0;
         var DB_nom      =   document.getElementsByClassName("db");
         var valuesDB    =   [];
+        var data_db     =   [];
         for(var i = 0; i < DB_nom.length; ++i) {
             var dbt     =   DB_nom[i].value;
             if (dbt === '') {
@@ -145,7 +146,9 @@ $(document).ready(function() {
                 var angka_db    =   dbt.replace(/,/g, '');
             }
             valuesDB.push(parseFloat(angka_db));
+            data_db.push(angka_db);
         }
+
         totalDB         =   (Math.round(valuesDB.reduce(function(previousDB, currentDB, index, array){
                                 return previousDB + currentDB;
                             }) * 100) / 100).toFixed(2);
@@ -154,6 +157,7 @@ $(document).ready(function() {
         var totalCR     =   0;
         var CR_nom      =   document.getElementsByClassName("cr");
         var valuesCR    =   [];
+        var data_cr     =   [];
         for(var i = 0; i < CR_nom.length; ++i) {
             var kdt     =   CR_nom[i].value;
             if (kdt === '') {
@@ -162,6 +166,7 @@ $(document).ready(function() {
                 var angka_cr    =   kdt.replace(/,/g, '');
             }
             valuesCR.push(parseFloat(angka_cr));
+            data_cr.push(angka_cr);
         }
         totalCR         =   (Math.round(valuesCR.reduce(function(previousCR, currentCR, index, array){
                                 return previousCR + currentCR;
@@ -183,6 +188,9 @@ $(document).ready(function() {
                     type:"POST",
                     data:{
                         "_token": "{{ csrf_token() }}",
+                        valRekening         : valRekening ,
+                        data_db             : data_db ,
+                        data_cr             : data_cr ,
                         tanggal_transaksi   : tanggal_transaksi,
                         uraian              : uraian,
                         arus_kas            : arus_kas,
@@ -191,7 +199,6 @@ $(document).ready(function() {
                     },
 
                     success:function(response){
-                        //
                         document.getElementById('notif-success').innerHTML  =   'Transaksi jurnal umum berhasil ditambahkan';
                         document.getElementById('notif-success').style      =   '';
                         $('#topbar-notification').fadeIn();
