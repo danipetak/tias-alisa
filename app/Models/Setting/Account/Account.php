@@ -35,12 +35,7 @@ class Account extends Model
     {
         $status =   FALSE ;
         if (Account::where('parent', $id)->count() < 1) {
-            // Yang dicomment diaktifkan saat sudah ada header transaksi
-            // if (condition) {
-            //     # code...
-            // } else {
-                $status =   TRUE ;
-            // }
+            $status =   (Headlist::where('account_id', $id)->count() > 0) ? FALSE : TRUE ;
         }
 
         return $status ;

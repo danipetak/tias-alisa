@@ -39,7 +39,7 @@ $(".form-submit").submit(function () {
 var x = 1;
 function addRow() {
     var row = '';
-    row += '<div class="row mb-1 column-' + (x) + '">';
+    row += '<div class="row mb-1 add-column column-' + (x) + '">';
     row += '    <div class="col-6 mr-1">';
     row += "        <select name='rek[]' class='rek select2 items form-control' required data-placeholder='Pilih Rekening'>";
     row += "        <option value=''></option>";
@@ -178,7 +178,7 @@ $(document).ready(function() {
             if ((totalDB != 0) || (totalCR != 0)) {
 
                 var tanggal_transaksi   =   $("#tanggal_transaksi").val();
-                var jenis_transaksi     =   $("input[name=jenis_transaksi]").val();
+                var jenis_transaksi     =   $("input[name=jenis_transaksi]:checked").val();
                 var uraian              =   $("#uraian").val();
                 var arus_kas            =   $("#arus_kas").val();
                 var riwayat_transaksi   =   $("#riwayat_transaksi").val();
@@ -199,6 +199,19 @@ $(document).ready(function() {
                     },
 
                     success:function(response){
+                        $("#tanggal_transaksi").val("{{ date('Y-m-d') }}");
+                        $("#uraian").val('');
+                        $(".rek").select2().val(null).trigger("change");
+                        $("#arus_kas").select2().val(null).trigger("change");
+                        $("#riwayat_transaksi").select2().val(null).trigger("change");
+                        document.getElementById('riwayat_transaksi').style  = 'display:none';
+                        $("input[name=jenis_transaksi][value='1']")[0].checked = true;
+                        $('.politespace-proxy-val').html('0.00');
+                        $('#data_DB').html('0.00');
+                        $('#data_CR').html('0.00');
+                        $('.db').val('0.00');
+                        $('.cr').val('0.00');
+                        $('.add-column').remove();
                         document.getElementById('notif-success').innerHTML  =   'Transaksi jurnal umum berhasil ditambahkan';
                         document.getElementById('notif-success').style      =   '';
                         $('#topbar-notification').fadeIn();
@@ -247,7 +260,7 @@ $(document).ready(function() {
 <div class="row pb-2 mb-3 border-bottom">
     <div class="col-3 mr-1">
         <div class="form-group">
-            Tanggal Transaksi <span class="text-danger">*</span>
+            Tanggal Transaksi
             <input type="date" name="tanggal_transaksi" class="form-control" value="{{ old('tanggal_transaksi') ?? date('Y-m-d') }}" id="tanggal_transaksi" autocomplete="off">
         </div>
 
@@ -270,8 +283,7 @@ $(document).ready(function() {
             Transaksi Akan Dirubah
             <select class="form-control select2" name="riwayat_transaksi" id='riwayat_transaksi' data-width="100%" data-placeholder='Pilih Transaksi'>
                 <option value=""></option>
-                <option value="1">fdsfdsfsdds</option>
-                {{-- {!! $riwayat !!} --}}
+                {!! $riwayat !!}
             </select>
         </div>
 
@@ -314,8 +326,8 @@ $(document).ready(function() {
     <div id='info-alert'>
         <div class="row my-2">
             <div class="text-center font-bold pt-1 col-6 mr-2" id='info-balance'>TIDAK ADA TRANSAKSI</div>
-            <div class="text-right font-bold pt-1 col mx-2" id='data_DB'></div>
-            <div class="text-right font-bold pt-1 col mx-2" id='data_CR'></div>
+            <div class="text-right font-bold pt-1 col mx-2" id='data_DB'>0.00</div>
+            <div class="text-right font-bold pt-1 col mx-2" id='data_CR'>0.00</div>
             <div class="col-1 text-center"><button type="button" class="btn btn-success d-inline-block" onclick="addRow()">+</button></div>
         </div>
     </div>
