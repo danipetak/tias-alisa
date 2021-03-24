@@ -23,9 +23,13 @@ class JurnalUmum extends Controller
     {
         $aruskas    =   Cashflow::pluck('nama', 'id');
 
-        $riwayat    =   Header::list_trans(['GJ', 'CJ']);
+        return view('page.transaksi.jurnal_umum.index', compact('aruskas'));
+    }
 
-        return view('page.transaksi.jurnal_umum.index', compact('aruskas', 'riwayat'));
+    public function riwayat()
+    {
+        $riwayat    =   Header::list_trans(['GJ', 'CJ']);
+        return view('page.transaksi.master.riwayat', compact('riwayat'));
     }
 
     public function store(Request $request)

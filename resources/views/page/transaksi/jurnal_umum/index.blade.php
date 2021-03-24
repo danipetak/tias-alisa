@@ -16,6 +16,9 @@
 <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
 
 <script>
+    $(document).ready(function() {
+        $('#riwayat_transaksi').load("{{ route('jurmalumum.riwayat') }}");
+    });
     $("input[name=jenis_transaksi]").change(function(){
         var rwt = document.getElementById('perubahan');
         var trs = document.getElementById('riwayat_transaksi');
@@ -204,7 +207,7 @@ $(document).ready(function() {
                         $(".rek").select2().val(null).trigger("change");
                         $("#arus_kas").select2().val(null).trigger("change");
                         $("#riwayat_transaksi").select2().val(null).trigger("change");
-                        document.getElementById('riwayat_transaksi').style  = 'display:none';
+                        document.getElementById('perubahan').style  = 'display:none';
                         $("input[name=jenis_transaksi][value='1']")[0].checked = true;
                         $('.politespace-proxy-val').html('0.00');
                         $('#data_DB').html('0.00');
@@ -212,6 +215,7 @@ $(document).ready(function() {
                         $('.db').val('0.00');
                         $('.cr').val('0.00');
                         $('.add-column').remove();
+                        $('#riwayat_transaksi').load("{{ route('jurmalumum.riwayat') }}");
                         document.getElementById('notif-success').innerHTML  =   'Transaksi jurnal umum berhasil ditambahkan';
                         document.getElementById('notif-success').style      =   '';
                         $('#topbar-notification').fadeIn();
@@ -279,13 +283,7 @@ $(document).ready(function() {
     </div>
 
     <div class="col ml-1">
-        <div class="form-group" id='perubahan' style="display: none">
-            Transaksi Akan Dirubah
-            <select class="form-control select2" name="riwayat_transaksi" id='riwayat_transaksi' data-width="100%" data-placeholder='Pilih Transaksi'>
-                <option value=""></option>
-                {!! $riwayat !!}
-            </select>
-        </div>
+        <div id="riwayat_transaksi"></div>
 
         <div class="form-group">
             Uraian
