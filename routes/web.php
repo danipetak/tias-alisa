@@ -58,3 +58,7 @@ Route::post('/jurnal-umum', 'Transaksi\JurnalUmum@store')->name('jurnalumum.stor
 Route::get('/jurnal-masuk', 'Transaksi\JurnalMasuk@index')->name('jurnalmasuk.index');
 Route::post('/jurnal-masuk', 'Transaksi\JurnalMasuk@store')->name('jurnalmasuk.store');
 Route::get('/jurnal-masuk/riwayat', 'Transaksi\JurnalMasuk@riwayat')->name('jurnalmasuk.riwayat');
+
+Route::get('/jurnal-keluar', 'Transaksi\JurnalKeluar@index')->name('jurnalkeluar.index');
+Route::post('/jurnal-keluar', 'Transaksi\JurnalKeluar@store')->name('jurnalkeluar.store');
+Route::get('/jurnal-keluar/riwayat', 'Transaksi\JurnalKeluar@riwayat')->name('jurnalkeluar.riwayat');

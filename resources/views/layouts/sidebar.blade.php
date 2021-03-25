@@ -43,12 +43,17 @@
         </a>
         <a href="{{ route('jurnalumum.index') }}">
             <li class="{{ request()->routeIs('jurnalumum.index') ? 'bg-active' : '' }}">
-                Transaksi jurnal Umum
+                Transaksi Jurnal Umum
             </li>
         </a>
         <a href="{{ route('jurnalmasuk.index') }}">
             <li class="{{ request()->routeIs('jurnalmasuk.index') ? 'bg-active' : '' }}">
-                Transaksi jurnal Kas Masuk
+                Transaksi Jurnal Kas Masuk
+            </li>
+        </a>
+        <a href="{{ route('jurnalkeluar.index') }}">
+            <li class="{{ request()->routeIs('jurnalkeluar.index') ? 'bg-active' : '' }}">
+                Transaksi Jurnal Kas Keluar
             </li>
         </a>
     </ul>

@@ -10,7 +10,7 @@ use App\Models\Transaksi\Headlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class JurnalMasuk extends Controller
+class JurnalKeluar extends Controller
 {
     public function __construct()
     {
@@ -19,14 +19,14 @@ class JurnalMasuk extends Controller
 
     public function index()
     {
-        $aruskas    =   Cashflow::where('aliran', 'penerimaan')
+        $aruskas    =   Cashflow::where('aliran', 'pengeluaran')
                         ->pluck('nama', 'id');
-        return view('page.transaksi.kas_masuk.index', compact('aruskas'));
+        return view('page.transaksi.kas_keluar.index', compact('aruskas'));
     }
 
     public function riwayat()
     {
-        $riwayat    =   Header::list_trans(['CD']);
+        $riwayat    =   Header::list_trans(['CR']);
         return view('page.transaksi.master.riwayat', compact('riwayat'));
     }
 
@@ -43,7 +43,7 @@ class JurnalMasuk extends Controller
         $parent =   NULL;
         if ($request->jenis_transaksi == '0') {
             if ($request->riwayat_transaksi) {
-                $riwayat    =   Header::where('id', $request->riwayat_transaksi)->where('reff', 'CD');
+                $riwayat    =   Header::where('id', $request->riwayat_transaksi)->where('reff', 'CR');
                 if ($riwayat->count() > 0) {
                     $riwayat->delete();
                     $parent =   $request->riwayat_transaksi;
@@ -60,8 +60,8 @@ class JurnalMasuk extends Controller
         $trans->user_id             =   Auth::user()->id;
         $trans->period_id           =   Period::periode_aktif('id');
         $trans->tanggal_transaksi   =   $request->tanggal_transaksi;
-        $trans->reff                =   $parent ? 'CJ' : 'CD';
-        $trans->nomor               =   Header::nomor_transaksi($parent ? 'CJ' : 'CD');
+        $trans->reff                =   $parent ? 'CJ' : 'CR';
+        $trans->nomor               =   Header::nomor_transaksi($parent ? 'CJ' : 'CR');
         $trans->uraian              =   $request->uraian;
         $trans->save();
 
@@ -69,8 +69,8 @@ class JurnalMasuk extends Controller
         $list->header_id            =   $trans->id ;
         $list->account_id           =   $request->rekening_kas ;
         $list->cashflow_id          =   $request->arus_kas ;
-        $list->debit                =   $request->total ;
-        $list->kredit               =   0 ;
+        $list->debit                =   0 ;
+        $list->kredit               =   $request->total ;
         $list->save();
 
         $rekening               =   json_decode(json_encode($request->rekening), TRUE);
@@ -81,8 +81,8 @@ class JurnalMasuk extends Controller
             $list->header_id    =   $trans->id;
             $list->account_id   =   $row;
             $list->cashflow_id  =   NULL;
-            $list->debit        =   0;
-            $list->kredit       =   $besar[$x];
+            $list->debit        =   $besar[$x];
+            $list->kredit       =   0;
             $list->save();
         }
     }
