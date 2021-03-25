@@ -17,11 +17,11 @@
 
 <script>
     $(document).ready(function() {
-        $('#riwayat_transaksi').load("{{ route('jurmalumum.riwayat') }}");
+        $('#riwayat').load("{{ route('jurnalumum.riwayat') }}");
     });
     $("input[name=jenis_transaksi]").change(function(){
         var rwt = document.getElementById('perubahan');
-        var trs = document.getElementById('riwayat_transaksi');
+        var trs = document.getElementById('riwayat');
         if ($(this).val() == 0) {
             rwt.style       =   '';
             trs.required    =   true;
@@ -55,7 +55,7 @@ function addRow() {
     row += '    <div class="col mx-1">';
     row += '        <input type="text" name="cr[]" class="cr form-control text-right" autocomplete="off" onkeyup="hitung(); return false;" value="0.00" data-politespace data-politespace-grouplength="3" data-politespace-delimiter="," data-politespace-decimal-mark="." step="0.01" data-politespace-reverse>';
     row += '    </div>';
-    row += '    <div class="col-1 text-center" onclick="deleteRow(' + (x) + ')"><button type="button" class="btn btn-danger">x</div>';
+    row += '    <div class="col-1 text-center" onclick="deleteRow(' + (x) + ')"><button type="button" class="btn btn-danger">x</button></div>';
     row += '</div>';
     $('.rek-loop').append(row);
 
@@ -187,7 +187,7 @@ $(document).ready(function() {
                 var riwayat_transaksi   =   $("#riwayat_transaksi").val();
 
                 $.ajax({
-                    url: "{{ route('jurmalumum.store') }}",
+                    url: "{{ route('jurnalumum.store') }}",
                     type:"POST",
                     data:{
                         "_token": "{{ csrf_token() }}",
@@ -215,7 +215,7 @@ $(document).ready(function() {
                         $('.db').val('0.00');
                         $('.cr').val('0.00');
                         $('.add-column').remove();
-                        $('#riwayat_transaksi').load("{{ route('jurmalumum.riwayat') }}");
+                        $('#riwayat').load("{{ route('jurnalumum.riwayat') }}");
                         document.getElementById('notif-success').innerHTML  =   'Transaksi jurnal umum berhasil ditambahkan';
                         document.getElementById('notif-success').style      =   '';
                         $('#topbar-notification').fadeIn();
@@ -283,7 +283,7 @@ $(document).ready(function() {
     </div>
 
     <div class="col ml-1">
-        <div id="riwayat_transaksi"></div>
+        <div id="riwayat"></div>
 
         <div class="form-group">
             Uraian
@@ -323,9 +323,9 @@ $(document).ready(function() {
 
     <div id='info-alert'>
         <div class="row my-2">
-            <div class="text-center font-bold pt-1 col-6 mr-2" id='info-balance'>TIDAK ADA TRANSAKSI</div>
-            <div class="text-right font-bold pt-1 col mx-2" id='data_DB'>0.00</div>
-            <div class="text-right font-bold pt-1 col mx-2" id='data_CR'>0.00</div>
+            <div class="text-center text-bold pt-1 col-6 mr-2" id='info-balance'>TIDAK ADA TRANSAKSI</div>
+            <div class="text-right pt-1 col mx-2" id='data_DB'>0.00</div>
+            <div class="text-right pt-1 col mx-2" id='data_CR'>0.00</div>
             <div class="col-1 text-center"><button type="button" class="btn btn-success d-inline-block" onclick="addRow()">+</button></div>
         </div>
     </div>

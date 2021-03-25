@@ -51,8 +51,10 @@ Route::get('/periode-akuntansi/info', 'Master\Data\PeriodeAkuntansi@info')->name
 Route::get('/saldo-awal', 'Transaksi\SaldoAwal@index')->name('saldoawal.index');
 Route::post('/saldo-awal', 'Transaksi\SaldoAwal@store')->name('saldoawal.store');
 
-Route::get('/jurmal-umum', 'Transaksi\JurnalUmum@index')->name('jurmalumum.index');
-Route::get('/jurmal-umum/riwayat', 'Transaksi\JurnalUmum@riwayat')->name('jurmalumum.riwayat');
-Route::post('/jurmal-umum', 'Transaksi\JurnalUmum@store')->name('jurmalumum.store');
+Route::get('/jurnal-umum', 'Transaksi\JurnalUmum@index')->name('jurnalumum.index');
+Route::get('/jurnal-umum/riwayat', 'Transaksi\JurnalUmum@riwayat')->name('jurnalumum.riwayat');
+Route::post('/jurnal-umum', 'Transaksi\JurnalUmum@store')->name('jurnalumum.store');
 
-Route::get('/jurmal-masuk', 'Transaksi\JurnalMasuk@index')->name('jurmalmasuk.index');
+Route::get('/jurnal-masuk', 'Transaksi\JurnalMasuk@index')->name('jurnalmasuk.index');
+Route::post('/jurnal-masuk', 'Transaksi\JurnalMasuk@store')->name('jurnalmasuk.store');
+Route::get('/jurnal-masuk/riwayat', 'Transaksi\JurnalMasuk@riwayat')->name('jurnalmasuk.riwayat');

@@ -2,10 +2,254 @@
 
 @section('title', 'Transaksi Jurnal Kas Masuk')
 
+@section('header')
+<link href="{{ asset('vendor/select2/css/select2.css') }}" rel="stylesheet" />
+<link href="{{ asset('vendor/politespace/politespace.css') }}" rel="stylesheet" />
+@endsection
+
+@section('footer')
+<script src="{{ asset('js/accounting.js') }}"></script>
+<script src="{{ asset('vendor/politespace/libs/libs.js') }}"></script>
+<script src="{{ asset('vendor/politespace/politespace.js') }}"></script>
+<script src="{{ asset('vendor/politespace/politespace-init.js') }}"></script>
+<script src="{{ asset('js/calculate_kas.js') }}"></script>
+<script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#riwayat').load("{{ route('jurnalmasuk.riwayat') }}");
+    });
+    $("input[name=jenis_transaksi]").change(function(){
+        var rwt = document.getElementById('perubahan');
+        var trs = document.getElementById('riwayat');
+        if ($(this).val() == 0) {
+            rwt.style       =   '';
+            trs.required    =   true;
+        } else {
+            rwt.style       =   'display:none';
+            trs.required    =   false;
+        }
+    });
+
+    var x = 1;
+    function addRow() {
+        var row = '';
+        row += '<div class="row mb-1 add-column column-' + (x) + '">';
+        row += '    <div class="col-8 mr-1">';
+        row += "        <select name='rek[]' class='rek select2 items form-control' required data-placeholder='Pilih Rekening'>";
+        row += "        <option value=''></option>";
+        row += "        {!! Akun::daftar_akun(FALSE, 'nonkas') !!}";
+        row += "        </select>";
+        row += '    </div>';
+        row += '    <div class="col mx-1">';
+        row += '        <input type="text" name="nominal[]" class="nominal form-control text-right" autocomplete="off" onkeyup="hitung(); return false;" value="0.00" data-politespace data-politespace-grouplength="3" data-politespace-delimiter="," data-politespace-decimal-mark="." step="0.01" data-politespace-reverse>';
+        row += '    </div>';
+        row += '    <div class="col-1 text-center" onclick="deleteRow(' + (x) + ')"><button type="button" class="btn btn-danger">x</button></div>';
+        row += '</div>';
+        $('.rek-loop').append(row);
+
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+
+        jQuery(function () {
+            jQuery(document).trigger("enhance");
+        });
+        x++;
+    }
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#btnSubmit').click(function(e){
+        e.preventDefault();
+        $(document).find("span.text-danger").remove();
+
+        var rek         =   document.getElementsByClassName("rek");
+        var rekening    =   [];
+        for(var i = 0; i < rek.length; ++i) {
+            rekening.push(rek[i].value);
+        }
+
+        var total   =   0;
+        var nom     =   document.getElementsByClassName("nominal");
+        var besar   =   [];
+        for(var i = 0; i < nom.length; ++i) {
+            var nominal =   nom[i].value;
+            if (nominal === '') {
+                var angka   =   0;
+            } else {
+                var angka   =   nominal.replace(/,/g, '');
+            }
+            besar.push(parseFloat(angka));
+        }
+        total   =   (Math.round(besar.reduce(function(previous, current, index, array){
+                        return previous + current;
+                    }) * 100) / 100).toFixed(2);
+
+        if (total > 0) {
+            var tanggal_transaksi   =   $("#tanggal_transaksi").val();
+            var jenis_transaksi     =   $("input[name=jenis_transaksi]:checked").val();
+            var rekening_kas        =   $("#rekening_kas").val();
+            var uraian              =   $("#uraian").val();
+            var arus_kas            =   $("#arus_kas").val();
+            var riwayat_transaksi   =   $("#riwayat_transaksi").val();
+
+            $.ajax({
+                url: "{{ route('jurnalmasuk.store') }}",
+                type:"POST",
+                data:{
+                    "_token": "{{ csrf_token() }}",
+                    rekening_kas        : rekening_kas ,
+                    rekening            : rekening ,
+                    besar               : besar ,
+                    total               : total ,
+                    tanggal_transaksi   : tanggal_transaksi,
+                    uraian              : uraian,
+                    arus_kas            : arus_kas,
+                    jenis_transaksi     : jenis_transaksi,
+                    riwayat_transaksi   : riwayat_transaksi,
+                },
+
+                success:function(response){
+                    $("#tanggal_transaksi").val("{{ date('Y-m-d') }}");
+                    $("#uraian").val('');
+                    $(".rek").select2().val(null).trigger("change");
+                    $("#arus_kas").select2().val(null).trigger("change");
+                    $("#riwayat_transaksi").select2().val(null).trigger("change");
+                    $("#rekening_kas").select2().val(null).trigger("change");
+                    document.getElementById('perubahan').style  = 'display:none';
+                    $("input[name=jenis_transaksi][value='1']")[0].checked = true;
+                    $('.politespace-proxy-val').html('0.00');
+                    $('#total').html('0.00');
+                    $('.nominal').val('0.00');
+                    $('.add-column').remove();
+                    $('#riwayat').load("{{ route('jurnalmasuk.riwayat') }}");
+                    document.getElementById('notif-success').innerHTML  =   'Transaksi jurnal kas masuk berhasil ditambahkan';
+                    document.getElementById('notif-success').style      =   '';
+                    $('#topbar-notification').fadeIn();
+                    setTimeout(function() {
+                        $('#topbar-notification').fadeOut();
+                        document.getElementById('notif-error').style    =   'display: none';
+                        document.getElementById('notif-success').style  =   'display: none';
+                    }, 2000) ;
+                },
+
+                error: function(response) {
+                    $.each(response.responseJSON.errors,function(field_name,error){
+                        $(document).find('[name='+ field_name +']').after('<span class="text-danger">' + error + '</span>')
+                    });
+                }
+
+            });
+        } else {
+            document.getElementById('notif-error').innerHTML  =   'Tidak ada transaksi';
+            document.getElementById('notif-error').style      =   '';
+            $('#topbar-notification').fadeIn();
+            setTimeout(function() {
+                $('#topbar-notification').fadeOut();
+                document.getElementById('notif-error').style    =   'display: none';
+                document.getElementById('notif-success').style  =   'display: none';
+            }, 2000) ;
+        }
+    });
+});
+</script>
+@endsection
+
 @section('content')
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mattis nulla sit amet eros semper, eget dapibus odio mollis. Sed quis mauris accumsan, fermentum nunc eu, molestie ante. Praesent a nunc eu velit mattis semper in vel nulla. Etiam eu neque vel augue aliquet sollicitudin gravida lobortis dolor. Aliquam quam urna, consectetur consequat tellus et, gravida feugiat odio. Mauris sodales convallis tellus eget vehicula. Nullam hendrerit id est in accumsan. Maecenas massa nisi, varius vitae libero et, cursus imperdiet arcu. Morbi eget tortor tristique, porta metus at, placerat justo.</p>
-<p>Pellentesque ex eros, congue id aliquam ac, tempor a nulla. Pellentesque ornare urna a elit venenatis consequat eget non arcu. Proin molestie mauris quam, interdum aliquam turpis pretium ut. Aenean facilisis tincidunt enim in bibendum. Aenean eu leo ex. Nunc ullamcorper tempor lobortis. Integer sagittis nisl in nibh malesuada vulputate. Nam malesuada scelerisque dolor, a iaculis velit. Nam lobortis fermentum metus id facilisis. Morbi sit amet pharetra magna, a ultrices justo. Etiam nec sapien eget ex laoreet hendrerit id at mauris. Vivamus nisl odio, elementum sed turpis ac, vulputate sagittis diam. Cras luctus tristique felis, id sagittis magna congue et.</p>
-<p>Phasellus porttitor lorem eu nisi pretium sodales. Morbi congue vehicula nisi non ullamcorper. Donec eleifend feugiat diam, a commodo eros sollicitudin ut. Nulla sagittis velit eget erat pharetra lobortis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In egestas tortor at turpis volutpat, sit amet egestas est tristique. Donec luctus tellus et tellus semper ullamcorper. Sed purus justo, pellentesque ut turpis a, porttitor semper dui. Nunc blandit faucibus tellus eu consectetur. Maecenas sit amet tristique nunc, nec condimentum ante. Suspendisse sollicitudin lobortis fermentum. Aliquam porta rhoncus metus eu sodales.</p>
-<p>Nullam sed risus ornare, facilisis turpis vitae, ultricies elit. Quisque ut cursus purus. Proin dolor metus, tincidunt ut viverra id, efficitur ut eros. Fusce molestie turpis sed nisl viverra sodales. Aliquam arcu lorem, vestibulum eget scelerisque quis, porta eu metus. Suspendisse vulputate scelerisque ultricies. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc cursus consequat sagittis. Sed iaculis arcu id massa porta hendrerit. Duis elementum urna ac egestas molestie. Duis ullamcorper feugiat ipsum. Aenean et suscipit magna. Nunc in ante vitae turpis aliquet volutpat. Nulla consequat consequat massa aliquam sagittis. Duis dignissim dignissim iaculis. Donec finibus non ligula ac gravida.</p>
-<p>Sed blandit purus vitae malesuada feugiat. Pellentesque cursus quis diam in imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in nulla sed quam tempor tincidunt a eu odio. Proin id arcu eget lorem aliquet porta. Vestibulum a efficitur dolor. Sed enim massa, hendrerit eget velit quis, varius accumsan sem.</p>
+<div class="row pb-2 mb-3 border-bottom">
+    <div class="col-3 mr-1">
+        <div class="form-group">
+            Tanggal Transaksi
+            <input type="date" name="tanggal_transaksi" class="form-control" value="{{ old('tanggal_transaksi') ?? date('Y-m-d') }}" id="tanggal_transaksi" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            Jenis Transaksi
+            <div>
+                <input type="radio" name="jenis_transaksi" value="1" id='trasnsaksi_baru' checked required>
+                <label for="trasnsaksi_baru">Transaksi Baru</label>
+            </div>
+
+            <div>
+                <input type="radio" name="jenis_transaksi" value="0" id='pembaharuan_transaksi' required>
+                <label for="pembaharuan_transaksi">Perubahan Transaksi</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="col ml-1">
+        <div id="riwayat"></div>
+
+        <div class="form-group">
+            Uraian
+            <input type="text" name="uraian" class="form-control" value="{{ old('uraian') }}" id="uraian" placeholder="Tuliskan Uraian" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            Rekening Kas
+            <select name="rekening_kas" id="rekening_kas" class="form-control select2" required data-width="100%" data-placeholder='Pilih Rekening Kas'>
+                <option value=""></option>
+                {!! Akun::daftar_akun(FALSE, 'kas') !!}
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-1">
+    <div class="text-center text-bold col-8 mr-1">
+        Rekening
+    </div>
+    <div class="text-center text-bold col mx-1">
+        Nominal
+    </div>
+    <div class="col-1"></div>
+</div>
+
+<div class="rek-loop">
+    <div class="row mb-1">
+        <div class="col-8 mr-1">
+            <select name='rek[]' class='rek select2 items form-control' required data-placeholder='Pilih Rekening'>
+            <option value=''></option>
+            {!! Akun::daftar_akun(FALSE, 'nonkas') !!}
+            </select>
+        </div>
+        <div class="col mx-1">
+            <input type="text" name="nominal[]" class="nominal form-control text-right" autocomplete="off" onkeyup="hitung(); return false;" value="0.00" data-politespace data-politespace-grouplength="3" data-politespace-delimiter="," data-politespace-decimal-mark="." step="0.01" data-politespace-reverse>
+        </div>
+        <div class="col-1"></div>
+    </div>
+</div>
+
+<div class="mb-4" id='info-alert'>
+    <div class="row my-2">
+        <div class="text-right text-bold pt-1 col-8 mr-2">TOTAL TRANSAKSI</div>
+        <div class="text-right pt-1 col mx-2" id='total'>0.00</div>
+        <div class="col-1 text-center"><button type="button" class="btn btn-success d-inline-block" onclick="addRow()">+</button></div>
+    </div>
+</div>
+
+<div class="border p-1 mb-4">
+    <div class="row">
+        <div class="col mr-1">
+            <div class="form-group">
+                Arus Kas
+                <select class="form-control select2" id='arus_kas' name="arus_kas" required data-width="100%" data-placeholder='Pilih Arus Kas'>
+                    <option value=""></option>
+                    @foreach ($aruskas as $id => $nama)
+                    <option value="{{ $id }}">{{ $nama }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="col-2 ml-1">
+            <div class="form-group">
+                &nbsp;
+                <button type="button" id='btnSubmit' class="selesaikan btn btn-success btn-block float-right submit">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

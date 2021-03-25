@@ -41,14 +41,14 @@
                 Saldo Awal
             </li>
         </a>
-        <a href="{{ route('jurmalumum.index') }}">
-            <li class="{{ request()->routeIs('jurmalumum.index') ? 'bg-active' : '' }}">
-                Transaksi Jurmal Umum
+        <a href="{{ route('jurnalumum.index') }}">
+            <li class="{{ request()->routeIs('jurnalumum.index') ? 'bg-active' : '' }}">
+                Transaksi jurnal Umum
             </li>
         </a>
-        <a href="{{ route('jurmalmasuk.index') }}">
-            <li class="{{ request()->routeIs('jurmalmasuk.index') ? 'bg-active' : '' }}">
-                Transaksi Jurmal Kas Masuk
+        <a href="{{ route('jurnalmasuk.index') }}">
+            <li class="{{ request()->routeIs('jurnalmasuk.index') ? 'bg-active' : '' }}">
+                Transaksi jurnal Kas Masuk
             </li>
         </a>
     </ul>

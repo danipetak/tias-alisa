@@ -41,9 +41,19 @@ class Account extends Model
         return $status ;
     }
 
-    public static function daftar_akun($id=FALSE)
+    public static function daftar_akun($id=FALSE, $link=FALSE)
     {
         $akun   =   Account::where('level', 4)
+                    ->where(function($query) use ($link) {
+                        if ($link) {
+                            if ($link == 'kas') {
+                                $query->whereIn('link_id', [2,3,4]);
+                            }
+                            if ($link == 'nonkas') {
+                                $query->whereNotIn('link_id', [2,3,4]);
+                            }
+                        }
+                    })
                     ->orderBy('kode_akun', 'ASC')
                     ->get();
 
