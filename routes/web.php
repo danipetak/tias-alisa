@@ -62,3 +62,11 @@ Route::get('/jurnal-masuk/riwayat', 'Transaksi\JurnalMasuk@riwayat')->name('jurn
 Route::get('/jurnal-keluar', 'Transaksi\JurnalKeluar@index')->name('jurnalkeluar.index');
 Route::post('/jurnal-keluar', 'Transaksi\JurnalKeluar@store')->name('jurnalkeluar.store');
 Route::get('/jurnal-keluar/riwayat', 'Transaksi\JurnalKeluar@riwayat')->name('jurnalkeluar.riwayat');
+
+Route::get('/jurnal-transfer', 'Transaksi\JurnalTransfer@index')->name('jurnaltransfer.index');
+
+Route::get('/ajustment-berjalan', 'Transaksi\AdjustmentPeriodeBerjalan@index')->name('adj_berjalan.index');
+
+Route::get('/ajustment-mandiri', 'Transaksi\AdjustmentTransaksiMandiri@index')->name('adj_mandiri.index');
+
+Route::get('/ajustment-tercatat', 'Transaksi\AdjustmentTransaksiTercatat@index')->name('adj_tercatat.index');
