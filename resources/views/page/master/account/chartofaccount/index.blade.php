@@ -55,6 +55,7 @@
             var row_kode    =   $(this).data('kode');
             var row_level   =   $(this).data('level');
             var endpoin     =   $(this).data('endpoin');
+            var sn          =   $(this).data('sn');
             row =   '';
             row +=  "<tr class='bg-active'>";
             row +=  "<td>";
@@ -72,8 +73,8 @@
             row +=  "</td>";
             row +=  "<td>";
             row +=  "<select class='pointer form-text bg-active w-100' name='sn[]'>";
-            row +=  "<option value='db'>Debit</option>";
-            row +=  "<option value='cr'>Kredit</option>";
+            row +=  "<option value='db' " + ((sn == 'db') ? 'selected' : '') + ">Debit</option>";
+            row +=  "<option value='cr' " + ((sn == 'cr') ? 'selected' : '') + ">Kredit</option>";
             row +=  "</select>";
             if (row_level == '1') {
             row +=  "<div><input id='stop" + row_id + "' type='checkbox' value='1' name='stop[]'><label for='stop" + row_id + "'>Akhir Header</div>";
@@ -81,7 +82,7 @@
             row +=  "<input type='hidden' value='' name='stop[]'>";
             }
             row +=  "</td>";
-            row +=  "<td>";
+            row +=  "<td colspan='2'>";
             row +=  "<button type='button' class='up_view btn btn-block btn-link'>Selesaikan</button>";
             row +=  "</td>";
             row +=  "</tr>";

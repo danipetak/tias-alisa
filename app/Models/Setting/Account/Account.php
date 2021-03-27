@@ -3,6 +3,7 @@
 namespace App\Models\Setting\Account;
 
 use App\Models\Setting\Setup;
+use App\Models\Transaksi\Headlist;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

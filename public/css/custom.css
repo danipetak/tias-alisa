@@ -14,7 +14,7 @@ table {
 }
 
 header{
-    background-color: #333;
+    background-color: #403c38;
     position: fixed;
     z-index: 999;
     width: 100%;
@@ -74,7 +74,7 @@ table, th, td {
 
 .bg-active {
     background-color: var(--color-bg-primary);
-    color: #333;
+    color: #403c38;
 }
 
 .radio-toolbar input[type="radio"] {
@@ -106,7 +106,7 @@ table, th, td {
 }
 
 footer{
-    background-color: #333;
+    background-color: #403c38;
     position: fixed;
     bottom: 0;
     width: 100%;

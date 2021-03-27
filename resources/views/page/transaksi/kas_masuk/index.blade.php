@@ -197,36 +197,38 @@ $(document).ready(function() {
     </div>
 </div>
 
-<div class="row mb-1">
-    <div class="text-center text-bold col-8 mr-1">
-        Rekening
-    </div>
-    <div class="text-center text-bold col mx-1">
-        Nominal
-    </div>
-    <div class="col-1"></div>
-</div>
-
-<div class="rek-loop">
+<div class="border p-1 mb-3">
     <div class="row mb-1">
-        <div class="col-8 mr-1">
-            <select name='rek[]' class='rek select2 items form-control' required data-placeholder='Pilih Rekening'>
-            <option value=''></option>
-            {!! Akun::daftar_akun(FALSE, 'nonkas') !!}
-            </select>
+        <div class="text-center col-8 mr-1">
+            Rekening
         </div>
-        <div class="col mx-1">
-            <input type="text" name="nominal[]" class="nominal form-control text-right" autocomplete="off" onkeyup="hitung(); return false;" value="0.00" data-politespace data-politespace-grouplength="3" data-politespace-delimiter="," data-politespace-decimal-mark="." step="0.01" data-politespace-reverse>
+        <div class="text-center col mx-1">
+            Nominal
         </div>
         <div class="col-1"></div>
     </div>
-</div>
 
-<div class="mb-4" id='info-alert'>
-    <div class="row my-2">
-        <div class="text-right text-bold pt-1 col-8 mr-2">TOTAL TRANSAKSI</div>
-        <div class="text-right pt-1 col mx-2" id='total'>0.00</div>
-        <div class="col-1 text-center"><button type="button" class="btn btn-success d-inline-block" onclick="addRow()">+</button></div>
+    <div class="rek-loop">
+        <div class="row mb-1">
+            <div class="col-8 mr-1">
+                <select name='rek[]' class='rek select2 items form-control' required data-placeholder='Pilih Rekening'>
+                <option value=''></option>
+                {!! Akun::daftar_akun(FALSE, 'nonkas') !!}
+                </select>
+            </div>
+            <div class="col mx-1">
+                <input type="text" name="nominal[]" class="nominal form-control text-right" autocomplete="off" onkeyup="hitung(); return false;" value="0.00" data-politespace data-politespace-grouplength="3" data-politespace-delimiter="," data-politespace-decimal-mark="." step="0.01" data-politespace-reverse>
+            </div>
+            <div class="col-1"></div>
+        </div>
+    </div>
+
+    <div class="mb-4" id='info-alert'>
+        <div class="row my-2">
+            <div class="text-right text-bold pt-1 col-8 mr-2">TOTAL TRANSAKSI</div>
+            <div class="text-right pt-1 col mx-2" id='total'>0.00</div>
+            <div class="col-1 text-center"><button type="button" class="btn btn-success d-inline-block" onclick="addRow()">+</button></div>
+        </div>
     </div>
 </div>
 

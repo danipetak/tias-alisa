@@ -64,6 +64,7 @@ Route::post('/jurnal-keluar', 'Transaksi\JurnalKeluar@store')->name('jurnalkelua
 Route::get('/jurnal-keluar/riwayat', 'Transaksi\JurnalKeluar@riwayat')->name('jurnalkeluar.riwayat');
 
 Route::get('/jurnal-transfer', 'Transaksi\JurnalTransfer@index')->name('jurnaltransfer.index');
+Route::post('/jurnal-transfer', 'Transaksi\JurnalTransfer@store')->name('jurnaltransfer.store');
 
 Route::get('/ajustment-berjalan', 'Transaksi\AdjustmentPeriodeBerjalan@index')->name('adj_berjalan.index');
 
