@@ -18,22 +18,39 @@ class Header extends Model
         return $this->reff . '-' . Setup::zerofill($this->nomor, 7);
     }
 
-    public static function nomor_transaksi($type)
+    public static function nomor_transaksi($type, $periode=FALSE)
     {
         $data   =   Header::select('nomor')
-                    ->where('reff', $type)
-                    ->where('period_id', Period::periode_aktif('id'))
+                    ->where(function($query) use ($type) {
+                        if (($type == 'AJB') OR ($type == 'AJM') OR ($type == 'AJT')) {
+                            $query->whereIn('reff', ['AJB','AJM','AJT']);
+                        } else {
+                            $query->where('reff', $type);
+                        }
+                    })
+                    ->where(function($query) use ($periode) {
+                        if ($periode) {
+                            $query->where('period_id', $periode);
+                        } else {
+                            $query->where('period_id', Period::periode_aktif('id'));
+                        }
+                    })
                     ->orderBy('nomor', 'DESC')
                     ->limit(1)
+                    ->withTrashed()
                     ->first();
 
         return  $data ? ($data->nomor + 1) : 1 ;
     }
 
-    public static function list_trans($reff)
+    public static function list_trans($reff=FALSE, $periode=FALSE)
     {
-        $riwayat    =   Header::whereIn('reff', $reff)
-                        ->where('period_id', Period::periode_aktif('id'))
+        $riwayat    =   Header::where(function($query) use ($reff) {
+                            if ($reff) {
+                                $query->whereIn('reff', $reff);
+                            }
+                        })
+                        ->where('period_id', $periode ? $periode : Period::periode_aktif('id'))
                         ->orderBy('id', 'DESC')
                         ->get();
 

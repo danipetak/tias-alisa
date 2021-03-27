@@ -1,5 +1,5 @@
 <div class="form-group" id='perubahan' style="display: none">
-    Transaksi Akan Dirubah
+    Pilih Transaksi
     <select class="form-control select2" name="riwayat_transaksi" id='riwayat_transaksi' data-width="100%" data-placeholder='Pilih Transaksi'>
         <option value=""></option>
         {!! $riwayat !!}

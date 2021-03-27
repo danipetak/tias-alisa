@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting\Period;
 use App\Models\Transaksi\Header;
 use App\Models\Transaksi\Headlist;
+use App\Rules\Account\PeriodeTransaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +20,7 @@ class JurnalTransfer extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'tanggal_transaksi' =>  'required',
+            'tanggal_transaksi' =>  ['required', new PeriodeTransaksi(Period::periode_aktif('id'))],
             'uraian'            =>  'required',
         ]);
 

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Transaksi Jurnal Transfer Kas')
+@section('title', 'Jurnal Penyesuaian Transaksi Tercatat')
 
 @section('header')
 <link href="{{ asset('vendor/select2/css/select2.css') }}" rel="stylesheet" />
@@ -16,6 +16,39 @@
 <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
 
 <script>
+    $("input[name=jenis_transaksi]").change(function(){
+        var rwt = document.getElementById('perubahan');
+        var trs = document.getElementById('riwayat');
+        if ($(this).val() == 0) {
+            rwt.style       =   '';
+            trs.required    =   true;
+        } else {
+            rwt.style       =   'display:none';
+            trs.required    =   false;
+        }
+    });
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#periode_akuntansi').change(function(e){
+        e.preventDefault();
+        var row_id  =   $(this).val() ;
+        $.get("{{ route('adj_tercatat.riwayat') }}", { 'id' : row_id }, function(data) {
+            $('#riwayat').html(data) ;
+            document.getElementById('perubahan').style  = 'display:block';
+        });
+    });
+});
+</script>
+
+<script type="text/javascript">
+$(".form-submit").submit(function () {
+    $('.submit').hide(function(){
+        document.getElementById('noted').innerHTML  = "<b>Mohon Ditunggu</b>";
+    });
+});
+
 var x = 1;
 function addRow() {
     var row = '';
@@ -23,7 +56,7 @@ function addRow() {
     row += '    <div class="col-6 mr-1">';
     row += "        <select name='rek[]' class='rek select2 items form-control' required data-placeholder='Pilih Rekening'>";
     row += "        <option value=''></option>";
-    row += "        {!! Akun::daftar_akun(FALSE, 'kas') !!}";
+    row += "        {!! Akun::daftar_akun() !!}";
     row += "        </select>";
     row += '    </div>';
     row += '    <div class="col mx-1">';
@@ -156,51 +189,73 @@ $(document).ready(function() {
 
         if (result == 0) {
             if ((totalDB != 0) || (totalCR != 0)) {
+                var periode_akuntansi   =   $("#periode_akuntansi").val();
 
-                var tanggal_transaksi   =   $("#tanggal_transaksi").val();
-                var jenis_transaksi     =   $("input[name=jenis_transaksi]:checked").val();
-                var uraian              =   $("#uraian").val();
+                if (periode_akuntansi > 0) {
 
-                $.ajax({
-                    url: "{{ route('jurnaltransfer.store') }}",
-                    type:"POST",
-                    data:{
-                        "_token": "{{ csrf_token() }}",
-                        valRekening         : valRekening ,
-                        data_db             : data_db ,
-                        data_cr             : data_cr ,
-                        tanggal_transaksi   : tanggal_transaksi,
-                        uraian              : uraian,
-                        jenis_transaksi     : jenis_transaksi,
-                    },
+                    var tanggal_transaksi   =   $("#tanggal_transaksi").val();
+                    var uraian              =   $("#uraian").val();
+                    var arus_kas            =   $("#arus_kas").val();
+                    var riwayat_transaksi   =   $("#riwayat_transaksi").val();
 
-                    success:function(response){
-                        $("#tanggal_transaksi").val("{{ date('Y-m-d') }}");
-                        $("#uraian").val('');
-                        $(".rek").select2().val(null).trigger("change");
-                        $('.politespace-proxy-val').html('0.00');
-                        $('#data_DB').html('0.00');
-                        $('#data_CR').html('0.00');
-                        $('.db').val('0.00');
-                        $('.cr').val('0.00');
-                        $('.add-column').remove();
-                        document.getElementById('notif-success').innerHTML  =   'Transaksi jurnal transfer kas berhasil ditambahkan';
-                        document.getElementById('notif-success').style      =   '';
-                        $('#topbar-notification').fadeIn();
-                        setTimeout(function() {
-                            $('#topbar-notification').fadeOut();
-                            document.getElementById('notif-error').style    =   'display: none';
-                            document.getElementById('notif-success').style  =   'display: none';
-                        }, 2000) ;
-                    },
+                    $.ajax({
+                        url: "{{ route('adj_tercatat.store') }}",
+                        type:"POST",
+                        data:{
+                            "_token": "{{ csrf_token() }}",
+                            valRekening         : valRekening ,
+                            data_db             : data_db ,
+                            data_cr             : data_cr ,
+                            tanggal_transaksi   : tanggal_transaksi,
+                            uraian              : uraian,
+                            arus_kas            : arus_kas,
+                            periode_akuntansi   : periode_akuntansi,
+                            riwayat_transaksi   : riwayat_transaksi,
+                        },
 
-                    error: function(response) {
-                        $.each(response.responseJSON.errors,function(field_name,error){
-                            $(document).find('[name='+ field_name +']').after('<div class="text-danger">' + error + '</div>')
-                        });
-                    }
+                        success:function(response){
+                            $("#tanggal_transaksi").val("{{ date('Y-m-d') }}");
+                            $("#uraian").val('');
+                            $(".rek").select2().val(null).trigger("change");
+                            $("#arus_kas").select2().val(null).trigger("change");
+                            $("#periode_akuntansi").select2().val(null).trigger("change");
+                            $("#riwayat_transaksi").select2().val(null).trigger("change");
+                            document.getElementById('perubahan').style  = 'display:none';
+                            $('#riwayat').load("{{ route('adj_tercatat.riwayat') }}");
+                            $('.politespace-proxy-val').html('0.00');
+                            $('#data_DB').html('0.00');
+                            $('#data_CR').html('0.00');
+                            $('.db').val('0.00');
+                            $('.cr').val('0.00');
+                            $('.add-column').remove();
+                            document.getElementById('notif-success').innerHTML  =   'Jurnal Penyesuaian Transaksi Tercatat berhasil ditambahkan';
+                            document.getElementById('notif-success').style      =   '';
+                            $('#topbar-notification').fadeIn();
+                            setTimeout(function() {
+                                $('#topbar-notification').fadeOut();
+                                document.getElementById('notif-error').style    =   'display: none';
+                                document.getElementById('notif-success').style  =   'display: none';
+                            }, 2000) ;
+                        },
 
-                });
+                        error: function(response) {
+                            $.each(response.responseJSON.errors,function(field_name,error){
+                                $(document).find('[name='+ field_name +']').after('<div class="text-danger">' + error + '</div>')
+                            });
+                        }
+
+                    });
+
+                } else {
+                    document.getElementById('notif-error').innerHTML  =   'Periode akuntansi belum dipilih';
+                    document.getElementById('notif-error').style      =   '';
+                    $('#topbar-notification').fadeIn();
+                    setTimeout(function() {
+                        $('#topbar-notification').fadeOut();
+                        document.getElementById('notif-error').style    =   'display: none';
+                        document.getElementById('notif-success').style  =   'display: none';
+                    }, 2000) ;
+                }
 
             } else {
                 document.getElementById('notif-error').innerHTML  =   'Tidak ada transaksi. Isikan daftar rekening beserta nominalnya';
@@ -230,7 +285,15 @@ $(document).ready(function() {
 
 @section('content')
 <div class="row pb-2 mb-3 border-bottom">
-    <div class="col-3 mr-1">
+    <div class="col-4 mr-1">
+        <div class="form-group">
+            Periode Akuntansi
+            <select name="periode_akuntansi" id="periode_akuntansi" class="form-control select2" data-width="100%" data-placeholder="Pilih Periode">
+                <option value=""></option>
+                {!! Periode::selectPeriode() !!}
+            </select>
+        </div>
+
         <div class="form-group">
             Tanggal Transaksi
             <input type="date" name="tanggal_transaksi" class="form-control" value="{{ old('tanggal_transaksi') ?? date('Y-m-d') }}" id="tanggal_transaksi" autocomplete="off">
@@ -238,6 +301,8 @@ $(document).ready(function() {
     </div>
 
     <div class="col ml-1">
+        <div id="riwayat"></div>
+
         <div class="form-group">
             Uraian
             <input type="text" name="uraian" class="form-control" value="{{ old('uraian') }}" id="uraian" placeholder="Tuliskan Uraian" autocomplete="off">
@@ -259,7 +324,7 @@ $(document).ready(function() {
             <div class="col-6 mr-1">
                 <select class="form-control rek select2" name="rek[]" required data-width="100%" data-placeholder='Pilih Rekening'>
                     <option value=""></option>
-                    {!! Akun::daftar_akun(FALSE, 'kas') !!}
+                    {!! Akun::daftar_akun() !!}
                 </select>
             </div>
 
@@ -285,5 +350,26 @@ $(document).ready(function() {
 
 </div>
 
-<button type="button" id='btnSubmit' class="selesaikan btn btn-success float-right px-3 submit">Submit</button>
+<div class="border p-1 mb-3">
+    <div class="row">
+        <div class="col mr-1">
+            <div class="form-group">
+                Arus Kas
+                <select class="form-control select2" id='arus_kas' name="arus_kas" required data-width="100%" data-placeholder='Pilih Arus Kas'>
+                    <option value=""></option>
+                    @foreach ($aruskas as $id => $nama)
+                    <option value="{{ $id }}">{{ $nama }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="col-2 ml-1">
+            <div class="form-group">
+                &nbsp;
+                <button type="button" id='btnSubmit' class="selesaikan btn btn-success btn-block float-right submit">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Transaksi Jurnal Transfer Kas')
+@section('title', 'Transaksi Jurnal Penyesuaian Transaksi Mandiri')
 
 @section('header')
 <link href="{{ asset('vendor/select2/css/select2.css') }}" rel="stylesheet" />
@@ -15,7 +15,13 @@
 <script src="{{ asset('js/calculate_gj.js') }}"></script>
 <script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
 
-<script>
+<script type="text/javascript">
+$(".form-submit").submit(function () {
+    $('.submit').hide(function(){
+        document.getElementById('noted').innerHTML  = "<b>Mohon Ditunggu</b>";
+    });
+});
+
 var x = 1;
 function addRow() {
     var row = '';
@@ -23,7 +29,7 @@ function addRow() {
     row += '    <div class="col-6 mr-1">';
     row += "        <select name='rek[]' class='rek select2 items form-control' required data-placeholder='Pilih Rekening'>";
     row += "        <option value=''></option>";
-    row += "        {!! Akun::daftar_akun(FALSE, 'kas') !!}";
+    row += "        {!! Akun::daftar_akun() !!}";
     row += "        </select>";
     row += '    </div>';
     row += '    <div class="col mx-1">';
@@ -158,11 +164,12 @@ $(document).ready(function() {
             if ((totalDB != 0) || (totalCR != 0)) {
 
                 var tanggal_transaksi   =   $("#tanggal_transaksi").val();
-                var jenis_transaksi     =   $("input[name=jenis_transaksi]:checked").val();
+                var periode_akuntansi   =   $("#periode_akuntansi").val();
                 var uraian              =   $("#uraian").val();
+                var arus_kas            =   $("#arus_kas").val();
 
                 $.ajax({
-                    url: "{{ route('jurnaltransfer.store') }}",
+                    url: "{{ route('adj_mandiri.store') }}",
                     type:"POST",
                     data:{
                         "_token": "{{ csrf_token() }}",
@@ -170,21 +177,24 @@ $(document).ready(function() {
                         data_db             : data_db ,
                         data_cr             : data_cr ,
                         tanggal_transaksi   : tanggal_transaksi,
+                        periode_akuntansi   : periode_akuntansi,
                         uraian              : uraian,
-                        jenis_transaksi     : jenis_transaksi,
+                        arus_kas            : arus_kas,
                     },
 
                     success:function(response){
-                        $("#tanggal_transaksi").val("{{ date('Y-m-d') }}");
+                        $("#tanggal_transaksi").val('');
                         $("#uraian").val('');
                         $(".rek").select2().val(null).trigger("change");
+                        $("#arus_kas").select2().val(null).trigger("change");
+                        $("#periode_akuntansi").select2().val(null).trigger("change");
                         $('.politespace-proxy-val').html('0.00');
                         $('#data_DB').html('0.00');
                         $('#data_CR').html('0.00');
                         $('.db').val('0.00');
                         $('.cr').val('0.00');
                         $('.add-column').remove();
-                        document.getElementById('notif-success').innerHTML  =   'Transaksi jurnal transfer kas berhasil ditambahkan';
+                        document.getElementById('notif-success').innerHTML  =   'Transaksi Jurnal Penyesuaian Transaksi Mandiri berhasil ditambahkan';
                         document.getElementById('notif-success').style      =   '';
                         $('#topbar-notification').fadeIn();
                         setTimeout(function() {
@@ -230,10 +240,18 @@ $(document).ready(function() {
 
 @section('content')
 <div class="row pb-2 mb-3 border-bottom">
-    <div class="col-3 mr-1">
+    <div class="col-4 mr-1">
+        <div class="form-group">
+            Periode Akuntansi
+            <select name="periode_akuntansi" id="periode_akuntansi" class="form-control select2" data-width="100%" data-placeholder="Pilih Periode">
+                <option value=""></option>
+                {!! Periode::selectPeriode() !!}
+            </select>
+        </div>
+
         <div class="form-group">
             Tanggal Transaksi
-            <input type="date" name="tanggal_transaksi" class="form-control" value="{{ old('tanggal_transaksi') ?? date('Y-m-d') }}" id="tanggal_transaksi" autocomplete="off">
+            <input type="date" name="tanggal_transaksi" class="form-control" value="{{ old('tanggal_transaksi') }}" id="tanggal_transaksi" autocomplete="off">
         </div>
     </div>
 
@@ -259,7 +277,7 @@ $(document).ready(function() {
             <div class="col-6 mr-1">
                 <select class="form-control rek select2" name="rek[]" required data-width="100%" data-placeholder='Pilih Rekening'>
                     <option value=""></option>
-                    {!! Akun::daftar_akun(FALSE, 'kas') !!}
+                    {!! Akun::daftar_akun() !!}
                 </select>
             </div>
 
@@ -285,5 +303,26 @@ $(document).ready(function() {
 
 </div>
 
-<button type="button" id='btnSubmit' class="selesaikan btn btn-success float-right px-3 submit">Submit</button>
+<div class="border p-1 mb-3">
+    <div class="row">
+        <div class="col mr-1">
+            <div class="form-group">
+                Arus Kas
+                <select class="form-control select2" id='arus_kas' name="arus_kas" required data-width="100%" data-placeholder='Pilih Arus Kas'>
+                    <option value=""></option>
+                    @foreach ($aruskas as $id => $nama)
+                    <option value="{{ $id }}">{{ $nama }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="col-2 ml-1">
+            <div class="form-group">
+                &nbsp;
+                <button type="button" id='btnSubmit' class="selesaikan btn btn-success btn-block float-right submit">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

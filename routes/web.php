@@ -66,8 +66,13 @@ Route::get('/jurnal-keluar/riwayat', 'Transaksi\JurnalKeluar@riwayat')->name('ju
 Route::get('/jurnal-transfer', 'Transaksi\JurnalTransfer@index')->name('jurnaltransfer.index');
 Route::post('/jurnal-transfer', 'Transaksi\JurnalTransfer@store')->name('jurnaltransfer.store');
 
-Route::get('/ajustment-berjalan', 'Transaksi\AdjustmentPeriodeBerjalan@index')->name('adj_berjalan.index');
+Route::get('/adjustment-berjalan', 'Transaksi\AdjustmentPeriodeBerjalan@index')->name('adj_berjalan.index');
+Route::post('/adjustment-berjalan', 'Transaksi\AdjustmentPeriodeBerjalan@store')->name('adj_berjalan.store');
+Route::get('/adjustment-berjalan/riwayat', 'Transaksi\AdjustmentPeriodeBerjalan@riwayat')->name('adj_berjalan.riwayat');
 
-Route::get('/ajustment-mandiri', 'Transaksi\AdjustmentTransaksiMandiri@index')->name('adj_mandiri.index');
+Route::get('/adjustment-mandiri', 'Transaksi\AdjustmentTransaksiMandiri@index')->name('adj_mandiri.index');
+Route::post('/adjustment-mandiri', 'Transaksi\AdjustmentTransaksiMandiri@store')->name('adj_mandiri.store');
 
-Route::get('/ajustment-tercatat', 'Transaksi\AdjustmentTransaksiTercatat@index')->name('adj_tercatat.index');
+Route::get('/adjustment-tercatat', 'Transaksi\AdjustmentTransaksiTercatat@index')->name('adj_tercatat.index');
+Route::get('/adjustment-tercatat/riwayat', 'Transaksi\AdjustmentTransaksiTercatat@riwayat')->name('adj_tercatat.riwayat');
+Route::post('/adjustment-tercatat', 'Transaksi\AdjustmentTransaksiTercatat@store')->name('adj_tercatat.store');

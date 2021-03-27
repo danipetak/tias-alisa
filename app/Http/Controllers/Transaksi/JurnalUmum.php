@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting\Account\Account;
 use App\Models\Setting\Account\Cashflow;
 use App\Models\Setting\Period;
-use App\Models\Setting\Setup;
 use App\Models\Transaksi\Header;
 use App\Models\Transaksi\Headlist;
+use App\Rules\Account\PeriodeTransaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,7 +35,7 @@ class JurnalUmum extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'tanggal_transaksi' =>  'required',
+            'tanggal_transaksi' =>  ['required', new PeriodeTransaksi(Period::periode_aktif('id'))],
             'uraian'            =>  'required',
             'arus_kas'          =>  'required',
             'jenis_transaksi'   =>  'required|in:1,0'

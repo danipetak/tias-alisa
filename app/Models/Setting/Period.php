@@ -52,6 +52,18 @@ class Period extends Model
         } else {
             return ($periode->count() > 0) ? TRUE : FALSE ;
         }
+    }
 
+    public static function selectPeriode($old=FALSE)
+    {
+        $periode    =   Period::whereIn('status', [2,3])
+                        ->orderBy('start', 'DESC')
+                        ->get();
+
+        $data   =   '';
+        foreach ($periode as $row) {
+            $data   .=  "<option value='" . $row->id . "'> " . date('d M Y', strtotime($row->start)) . " - " . date('d M Y', strtotime($row->end)) . " </option>" ;
+        }
+        return $data ;
     }
 }
