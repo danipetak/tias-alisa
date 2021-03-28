@@ -4,6 +4,7 @@ namespace App\Models\Setting;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Tanggal;
 
 class Period extends Model
 {
@@ -12,12 +13,13 @@ class Period extends Model
 
     public function getMulaiAttribute()
     {
-        return date('d F Y', strtotime($this->start)) ;
+
+        return Tanggal::date($this->start);
     }
 
     public function getSelesaiAttribute()
     {
-        return date('d F Y', strtotime($this->end));
+        return Tanggal::date($this->end);
     }
 
     public function getStatusPeriodeAttribute()
@@ -50,6 +52,18 @@ class Period extends Model
         } else {
             return ($periode->count() > 0) ? TRUE : FALSE ;
         }
+    }
 
+    public static function selectPeriode($old=FALSE)
+    {
+        $periode    =   Period::whereIn('status', [2,3])
+                        ->orderBy('start', 'DESC')
+                        ->get();
+
+        $data   =   '';
+        foreach ($periode as $row) {
+            $data   .=  "<option value='" . $row->id . "' " . (($old == $row->id) ? 'selected' : '') . "> " . date('d M Y', strtotime($row->start)) . " - " . date('d M Y', strtotime($row->end)) . " </option>" ;
+        }
+        return $data ;
     }
 }

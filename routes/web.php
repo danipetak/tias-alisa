@@ -47,3 +47,32 @@ Route::patch('/periode-akuntansi', 'Master\Data\PeriodeAkuntansi@update')->name(
 Route::delete('/periode-akuntansi', 'Master\Data\PeriodeAkuntansi@destroy')->name('periode.destroy');
 Route::get('/periode-akuntansi/show', 'Master\Data\PeriodeAkuntansi@show')->name('periode.show');
 Route::get('/periode-akuntansi/info', 'Master\Data\PeriodeAkuntansi@info')->name('periode.info');
+
+Route::get('/saldo-awal', 'Transaksi\SaldoAwal@index')->name('saldoawal.index');
+Route::post('/saldo-awal', 'Transaksi\SaldoAwal@store')->name('saldoawal.store');
+
+Route::get('/jurnal-umum', 'Transaksi\JurnalUmum@index')->name('jurnalumum.index');
+Route::get('/jurnal-umum/riwayat', 'Transaksi\JurnalUmum@riwayat')->name('jurnalumum.riwayat');
+Route::post('/jurnal-umum', 'Transaksi\JurnalUmum@store')->name('jurnalumum.store');
+
+Route::get('/jurnal-masuk', 'Transaksi\JurnalMasuk@index')->name('jurnalmasuk.index');
+Route::post('/jurnal-masuk', 'Transaksi\JurnalMasuk@store')->name('jurnalmasuk.store');
+Route::get('/jurnal-masuk/riwayat', 'Transaksi\JurnalMasuk@riwayat')->name('jurnalmasuk.riwayat');
+
+Route::get('/jurnal-keluar', 'Transaksi\JurnalKeluar@index')->name('jurnalkeluar.index');
+Route::post('/jurnal-keluar', 'Transaksi\JurnalKeluar@store')->name('jurnalkeluar.store');
+Route::get('/jurnal-keluar/riwayat', 'Transaksi\JurnalKeluar@riwayat')->name('jurnalkeluar.riwayat');
+
+Route::get('/jurnal-transfer', 'Transaksi\JurnalTransfer@index')->name('jurnaltransfer.index');
+Route::post('/jurnal-transfer', 'Transaksi\JurnalTransfer@store')->name('jurnaltransfer.store');
+
+Route::get('/adjustment-berjalan', 'Transaksi\AdjustmentPeriodeBerjalan@index')->name('adj_berjalan.index');
+Route::post('/adjustment-berjalan', 'Transaksi\AdjustmentPeriodeBerjalan@store')->name('adj_berjalan.store');
+Route::get('/adjustment-berjalan/riwayat', 'Transaksi\AdjustmentPeriodeBerjalan@riwayat')->name('adj_berjalan.riwayat');
+
+Route::get('/adjustment-mandiri', 'Transaksi\AdjustmentTransaksiMandiri@index')->name('adj_mandiri.index');
+Route::post('/adjustment-mandiri', 'Transaksi\AdjustmentTransaksiMandiri@store')->name('adj_mandiri.store');
+
+Route::get('/adjustment-tercatat', 'Transaksi\AdjustmentTransaksiTercatat@index')->name('adj_tercatat.index');
+Route::get('/adjustment-tercatat/riwayat', 'Transaksi\AdjustmentTransaksiTercatat@riwayat')->name('adj_tercatat.riwayat');
+Route::post('/adjustment-tercatat', 'Transaksi\AdjustmentTransaksiTercatat@store')->name('adj_tercatat.store');

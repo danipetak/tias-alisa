@@ -78,7 +78,7 @@ $(document).ready(function() {
 
     $('#submit').click(function(e){
         e.preventDefault();
-        $(document).find("span.text-danger").remove();
+        $(document).find("div.text-danger").remove();
 
         var x_code          =   $('#x_code').val();
         var nama_penghubung =   $('#nama_penghubung').val();
@@ -109,7 +109,7 @@ $(document).ready(function() {
 
             error: function(response) {
                 $.each(response.responseJSON.errors,function(field_name,error){
-                    $(document).find('[name='+ field_name +']').after('<span class="text-danger">' + error + '</span>')
+                    $(document).find('[name='+ field_name +']').after('<div class="text-danger">' + error + '</div>')
                 });
             }
 

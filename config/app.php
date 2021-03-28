@@ -229,6 +229,7 @@ return [
         'Setting' =>  App\Models\Setting\Setup::class,
         'Periode' =>  App\Models\Setting\Period::class,
         'Akun' =>  App\Models\Setting\Account\Account::class,
+        'Tanggal' => Nim4n\SimpleDate::class,
     ],
 
 ];

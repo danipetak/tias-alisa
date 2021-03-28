@@ -34,4 +34,47 @@
             </li>
         </a>
     </ul>
+
+    <ul class="mb-2">
+        <a href="{{ route('saldoawal.index') }}">
+            <li class="{{ request()->routeIs('saldoawal.index') ? 'bg-active' : '' }}">
+                Saldo Awal
+            </li>
+        </a>
+        <a href="{{ route('jurnalumum.index') }}">
+            <li class="{{ request()->routeIs('jurnalumum.index') ? 'bg-active' : '' }}">
+                Jurnal Umum
+            </li>
+        </a>
+        <a href="{{ route('jurnalmasuk.index') }}">
+            <li class="{{ request()->routeIs('jurnalmasuk.index') ? 'bg-active' : '' }}">
+                Jurnal Kas Masuk
+            </li>
+        </a>
+        <a href="{{ route('jurnalkeluar.index') }}">
+            <li class="{{ request()->routeIs('jurnalkeluar.index') ? 'bg-active' : '' }}">
+                Jurnal Kas Keluar
+            </li>
+        </a>
+        <a href="{{ route('jurnaltransfer.index') }}">
+            <li class="{{ request()->routeIs('jurnaltransfer.index') ? 'bg-active' : '' }}">
+                Jurnal Transfer Kas
+            </li>
+        </a>
+        <a href="{{ route('adj_berjalan.index') }}">
+            <li class="{{ request()->routeIs('adj_berjalan.index') ? 'bg-active' : '' }}">
+                Jurnal Penyesuaian Berjalan
+            </li>
+        </a>
+        <a href="{{ route('adj_mandiri.index') }}">
+            <li class="{{ request()->routeIs('adj_mandiri.index') ? 'bg-active' : '' }}">
+                Jurnal Penyesuaian Mandiri
+            </li>
+        </a>
+        <a href="{{ route('adj_tercatat.index') }}">
+            <li class="{{ request()->routeIs('adj_tercatat.index') ? 'bg-active' : '' }}">
+                Jurnal Penyesuaian Tercatat
+            </li>
+        </a>
+    </ul>
 </div>
