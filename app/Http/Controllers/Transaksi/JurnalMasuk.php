@@ -10,6 +10,7 @@ use App\Models\Transaksi\Headlist;
 use App\Rules\Account\PeriodeTransaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class JurnalMasuk extends Controller
 {
@@ -34,10 +35,10 @@ class JurnalMasuk extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'rekening_kas'      =>  'required',
+            'rekening_kas'      =>  ['required', Rule::exists('accounts', 'id')->whereIn('link_id', [2,3,4])],
             'tanggal_transaksi' =>  ['required', new PeriodeTransaksi(Period::periode_aktif('id'))],
             'uraian'            =>  'required',
-            'arus_kas'          =>  'required',
+            'arus_kas'          =>  ['required', Rule::exists('cashflows', 'id')->where('aliran', 'penerimaan')],
             'jenis_transaksi'   =>  'required|in:1,0'
         ]);
 
