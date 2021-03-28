@@ -62,7 +62,7 @@ class Period extends Model
 
         $data   =   '';
         foreach ($periode as $row) {
-            $data   .=  "<option value='" . $row->id . "'> " . date('d M Y', strtotime($row->start)) . " - " . date('d M Y', strtotime($row->end)) . " </option>" ;
+            $data   .=  "<option value='" . $row->id . "' " . (($old == $row->id) ? 'selected' : '') . "> " . date('d M Y', strtotime($row->start)) . " - " . date('d M Y', strtotime($row->end)) . " </option>" ;
         }
         return $data ;
     }

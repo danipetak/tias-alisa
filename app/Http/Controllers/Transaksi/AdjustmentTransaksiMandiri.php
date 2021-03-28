@@ -10,6 +10,7 @@ use App\Models\Transaksi\Headlist;
 use App\Rules\Account\PeriodeTransaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class AdjustmentTransaksiMandiri extends Controller
 {
@@ -22,7 +23,7 @@ class AdjustmentTransaksiMandiri extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'periode_akuntansi' =>  'required',
+            'periode_akuntansi' =>  ['required', Rule::exists('periods', 'id')->whereIn('status', [2, 3])],
             'tanggal_transaksi' =>  ['required', new PeriodeTransaksi($request->periode_akuntansi)],
             'uraian'            =>  'required',
             'arus_kas'          =>  'required',
