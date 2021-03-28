@@ -76,3 +76,8 @@ Route::post('/adjustment-mandiri', 'Transaksi\AdjustmentTransaksiMandiri@store')
 Route::get('/adjustment-tercatat', 'Transaksi\AdjustmentTransaksiTercatat@index')->name('adj_tercatat.index');
 Route::get('/adjustment-tercatat/riwayat', 'Transaksi\AdjustmentTransaksiTercatat@riwayat')->name('adj_tercatat.riwayat');
 Route::post('/adjustment-tercatat', 'Transaksi\AdjustmentTransaksiTercatat@store')->name('adj_tercatat.store');
+
+Route::get('/kwitansi', 'Laporan\Kwitansi@index');
+Route::get('/kwitansi/{id}', 'Laporan\Kwitansi@show')->name('kwitansi');
+
+Route::get('/laporan-datatransaksi', 'Laporan\DataTransaksi@index')->name('datatransaksi.index');

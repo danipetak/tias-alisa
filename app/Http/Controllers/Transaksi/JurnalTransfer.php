@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class JurnalTransfer extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'periode']);
+    }
+
     public function index()
     {
         return view('page.transaksi.transfer_kas.index');

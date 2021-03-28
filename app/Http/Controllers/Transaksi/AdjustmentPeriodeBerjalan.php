@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AdjustmentPeriodeBerjalan extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'periode']);
+    }
+
     public function index()
     {
         $aruskas    =   Cashflow::pluck('nama', 'id');

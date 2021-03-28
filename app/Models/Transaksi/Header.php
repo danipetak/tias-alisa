@@ -2,20 +2,32 @@
 
 namespace App\Models\Transaksi;
 
+use App\Models\Setting\Account\Account;
 use App\Models\Setting\Period;
 use App\Models\Setting\Setup;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Header extends Model
 {
     use SoftDeletes;
-    protected $appends  =   ['nomor_transaksi'];
+    protected $appends  =   ['nomor_transaksi', 'total_transaksi'];
 
     public function getNomorTransaksiAttribute()
     {
         return $this->reff . '-' . Setup::zerofill($this->nomor, 7);
+    }
+
+    public function getTotalTransaksiAttribute()
+    {
+        $data   =   Headlist::select(DB::raw("SUM(debit) AS db"), DB::raw("SUM(kredit) AS cr"))
+                    ->where('header_id', $this->id)
+                    ->whereIn('account_id', Account::select('id')
+                        ->whereIn('link_id', [2,3,4])
+                    )->first();
+
+        return ($data->db - $data->cr);
     }
 
     public static function nomor_transaksi($type, $periode=FALSE)

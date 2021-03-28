@@ -14,6 +14,11 @@ use Illuminate\Validation\Rule;
 
 class AdjustmentTransaksiMandiri extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'periode']);
+    }
+
     public function index()
     {
         $aruskas    =   Cashflow::pluck('nama', 'id');

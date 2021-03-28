@@ -230,6 +230,7 @@ return [
         'Periode' =>  App\Models\Setting\Period::class,
         'Akun' =>  App\Models\Setting\Account\Account::class,
         'Tanggal' => Nim4n\SimpleDate::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

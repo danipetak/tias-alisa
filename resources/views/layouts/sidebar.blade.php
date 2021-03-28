@@ -77,4 +77,12 @@
             </li>
         </a>
     </ul>
+
+    <ul class="mb-2">
+        <a href="{{ route('datatransaksi.index') }}">
+            <li class="{{ request()->routeIs('datatransaksi.index') ? 'bg-active' : '' }}">
+                Laporan Data Transaksi
+            </li>
+        </a>
+    </ul>
 </div>
