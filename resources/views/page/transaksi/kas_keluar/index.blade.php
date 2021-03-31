@@ -159,7 +159,7 @@ $(document).ready(function() {
 
 @section('content')
 <div class="row pb-2 mb-3 border-bottom">
-    <div class="col-3 mr-1">
+    <div class="col-3 pr-1">
         <div class="form-group">
             Tanggal Transaksi
             <input type="date" name="tanggal_transaksi" class="form-control" value="{{ old('tanggal_transaksi') ?? date('Y-m-d') }}" id="tanggal_transaksi" autocomplete="off">
@@ -179,7 +179,7 @@ $(document).ready(function() {
         </div>
     </div>
 
-    <div class="col ml-1">
+    <div class="col-9 pl-1">
         <div id="riwayat"></div>
 
         <div class="form-group">

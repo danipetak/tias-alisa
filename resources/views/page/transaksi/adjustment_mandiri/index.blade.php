@@ -240,7 +240,7 @@ $(document).ready(function() {
 
 @section('content')
 <div class="row pb-2 mb-3 border-bottom">
-    <div class="col-4 mr-1">
+    <div class="col-4 pr-1">
         <div class="form-group">
             Periode Akuntansi
             <select name="periode_akuntansi" id="periode_akuntansi" class="form-control select2" data-width="100%" data-placeholder="Pilih Periode">
@@ -255,7 +255,7 @@ $(document).ready(function() {
         </div>
     </div>
 
-    <div class="col ml-1">
+    <div class="col-8 pl-1">
         <div class="form-group">
             Uraian
             <input type="text" name="uraian" class="form-control" value="{{ old('uraian') }}" id="uraian" placeholder="Tuliskan Uraian" autocomplete="off">

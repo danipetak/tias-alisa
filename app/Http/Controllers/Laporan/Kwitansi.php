@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Laporan;
 use App\Http\Controllers\Controller;
 use App\Models\Setting\Setup;
 use App\Models\Transaksi\Header;
+use App\Models\Transaksi\Headlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use QrCode;
 
 class Kwitansi extends Controller
 {
@@ -28,8 +30,12 @@ class Kwitansi extends Controller
 
         if ($data) {
             $terbilang  =   $this->terbilang($data->total_transaksi, 1);
+
+            $list       =   Headlist::where('header_id', $data->id)->get();
+            $barcode    =   base64_encode(QrCode::format('svg')->size(50)->errorCorrection('H')->generate('lorem'));
+            $usaha      =   json_decode(Setup::where('slug', 'profil')->first()->json_content, FALSE);
             $pdf        =   App::make('dompdf.wrapper');
-            $pdf->loadView('page.laporan.unduh.kwitansi', compact('data', 'terbilang'))->setPaper('a5', 'landscape');
+            $pdf->loadView('page.laporan.unduh.kwitansi', compact('data', 'terbilang', 'list', 'barcode', 'usaha'))->setPaper('a5');
             return $pdf->stream();
         }
         return redirect()->route('index')->with('error', 'Tidak ditemukan transaksi');

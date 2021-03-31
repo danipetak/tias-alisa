@@ -16,7 +16,8 @@
         "laravel/framework": "^7.29",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^2.4",
-        "nim4n/date-format-indonesia": "^0.0.1"
+        "nim4n/date-format-indonesia": "^0.0.1",
+        "simplesoftwareio/simple-qrcode": "^4.2"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

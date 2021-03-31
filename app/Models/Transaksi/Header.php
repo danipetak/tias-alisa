@@ -2,17 +2,28 @@
 
 namespace App\Models\Transaksi;
 
+use App\Models\Auth\User;
 use App\Models\Setting\Account\Account;
 use App\Models\Setting\Period;
 use App\Models\Setting\Setup;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Tanggal;
 
 class Header extends Model
 {
     use SoftDeletes;
-    protected $appends  =   ['nomor_transaksi', 'total_transaksi'];
+    protected $appends  =   ['nomor_transaksi', 'total_transaksi', 'catatan_kwitansi'];
+
+    public function getCatatanKwitansiAttribute()
+    {
+        if (Header::tracking_perubahan($this->id)) {
+            return Header::tracking_perubahan($this->id);
+        } else {
+            return $this->deleted_at ? ($this->informasi ? $this->informasi : "TRANSAKSI DIHAPUS TANGGAL ". Tanggal::date($this->deleted_at)) : "TIDAK ADA CATATAN" ;
+        }
+    }
 
     public function getNomorTransaksiAttribute()
     {
@@ -28,6 +39,34 @@ class Header extends Model
                     )->first();
 
         return ($data->db - $data->cr);
+    }
+
+    public static function tracking_perubahan($id, $type=FALSE)
+    {
+        $perubahan  =   Header::where('parent', $id)
+                        ->withTrashed()
+                        ->first();
+
+        if ($perubahan) {
+            if ($type) {
+                return $perubahan->nomor_transaksi ;
+            } else {
+                return "DIKOREKSI KE TRANSAKSI " . $perubahan->nomor_transaksi ;
+            }
+        }
+
+        $dirubah    =   Header::where('id', $id)
+                        ->whereIn('parent', Header::select('id')->withTrashed())
+                        ->first();
+
+        if ($dirubah) {
+            if ($type) {
+                return $dirubah->induk->nomor_transaksi;
+            } else {
+                return "PERUBAHAN ATAS TRANSAKSI " . $dirubah->induk->nomor_transaksi;
+            }
+        }
+
     }
 
     public static function nomor_transaksi($type, $periode=FALSE)
@@ -74,5 +113,15 @@ class Header extends Model
         }
 
         return $data;
+    }
+
+    public function induk()
+    {
+        return $this->belongsTo(Header::class, 'parent', 'id')->withTrashed();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
