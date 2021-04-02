@@ -6,6 +6,7 @@ use App\Models\Auth\User;
 use App\Models\Setting\Account\Account;
 use App\Models\Setting\Period;
 use App\Models\Setting\Setup;
+use App\Models\Transaksi\Headlist;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,7 @@ use Tanggal;
 class Header extends Model
 {
     use SoftDeletes;
-    protected $appends  =   ['nomor_transaksi', 'total_transaksi', 'catatan_kwitansi'];
+    protected $appends  =   ['nomor_transaksi', 'total_transaksi', 'report_total', 'catatan_kwitansi'];
 
     public function getCatatanKwitansiAttribute()
     {
@@ -39,6 +40,11 @@ class Header extends Model
                     )->first();
 
         return ($data->db - $data->cr);
+    }
+
+    public function getReportTotalAttribute()
+    {
+        return $this->total_transaksi > 0 ? number_format($this->total_transaksi, 2) : "(" . number_format(abs($this->total_transaksi), 2) . ")";
     }
 
     public static function tracking_perubahan($id, $type=FALSE)

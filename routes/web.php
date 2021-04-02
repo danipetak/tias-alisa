@@ -81,3 +81,7 @@ Route::get('/kwitansi', 'Laporan\Kwitansi@index');
 Route::get('/kwitansi/{id}', 'Laporan\Kwitansi@show')->name('kwitansi');
 
 Route::get('/laporan-datatransaksi', 'Laporan\DataTransaksi@index')->name('datatransaksi.index');
+
+Route::get('/laporan-periodejurnal', 'Laporan\PeriodeJurnal@index')->name('periodejurnal.index');
+
+Route::get('/laporan-bukubesar', 'Laporan\BukuBesar@index')->name('bukubesar.index');

@@ -84,5 +84,15 @@
                 Laporan Data Transaksi
             </li>
         </a>
+        <a href="{{ route('periodejurnal.index') }}">
+            <li class="{{ request()->routeIs('periodejurnal.index') ? 'bg-active' : '' }}">
+                Laporan Periode Jurnal
+            </li>
+        </a>
+        <a href="{{ route('bukubesar.index') }}">
+            <li class="{{ request()->routeIs('bukubesar.index') ? 'bg-active' : '' }}">
+                Laporan Buku Besar
+            </li>
+        </a>
     </ul>
 </div>

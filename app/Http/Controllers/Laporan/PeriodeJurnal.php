@@ -7,7 +7,7 @@ use App\Models\Setting\Period;
 use App\Models\Transaksi\Header;
 use Illuminate\Http\Request;
 
-class DataTransaksi extends Controller
+class PeriodeJurnal extends Controller
 {
     public function __construct()
     {
@@ -17,9 +17,9 @@ class DataTransaksi extends Controller
     public function index(Request $request)
     {
         $periode    =   $request->periode ?? '';
-        $period     =   Period::whereIn('status', [2,3,4])->get();
+        $period     =   Period::whereIn('status', [2, 3, 4])->get();
 
-        $trans      =   Header::where(function($query) use ($periode) {
+        $trans      =   Header::where(function ($query) use ($periode) {
                             if ($periode) {
                                 $query->where('period_id', $periode);
                             }
@@ -27,8 +27,8 @@ class DataTransaksi extends Controller
                         ->orderBy('tanggal_transaksi', 'DESC')
                         ->orderBy('id', 'DESC')
                         ->withTrashed()
-                        ->paginate(50);
+                        ->paginate(20);
 
-        return view('page.laporan.data_transaksi.index', compact('period', 'periode', 'trans'));
+        return view('page.laporan.periode_jurnal.index', compact('period', 'periode', 'trans'));
     }
 }

@@ -49,6 +49,9 @@ class Period extends Model
             if ($type == 'tanggal') {
                 return $periode->mulai . ' - ' . $periode->selesai ;
             }
+            if ($type == 'start') {
+                return $periode->start ;
+            }
         } else {
             return ($periode->count() > 0) ? TRUE : FALSE ;
         }

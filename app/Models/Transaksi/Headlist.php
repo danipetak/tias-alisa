@@ -11,4 +11,9 @@ class Headlist extends Model
     {
         return $this->belongsTo(Account::class, 'account_id', 'id');
     }
+
+    public static function daftarTransaksi($id)
+    {
+        return Headlist::where('header_id', $id)->get();
+    }
 }

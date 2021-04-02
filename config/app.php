@@ -231,6 +231,7 @@ return [
         'Setting' =>  App\Models\Setting\Setup::class,
         'Periode' =>  App\Models\Setting\Period::class,
         'Akun' =>  App\Models\Setting\Account\Account::class,
+        'ListTrans' =>  App\Models\Transaksi\Headlist::class,
         'Tanggal' => Nim4n\SimpleDate::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class

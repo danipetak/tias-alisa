@@ -14,7 +14,7 @@ class Kwitansi extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'profil']);
     }
 
     public function index()
