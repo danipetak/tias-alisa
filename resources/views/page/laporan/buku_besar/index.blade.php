@@ -32,6 +32,24 @@
 </div>
 
 @if ($trans)
+    <form action="{{ route('bukubesar.index') }}" method="get">
+        <div class="border mb-3 p-1">
+            <div class="row">
+                <div class="col-10 pr-1">
+                    <div class="form-group">
+                        Pencarian
+                        <input type="hidden" name="trans" value="{{ $trans->id }}">
+                        <input type="text" name="q" value="{{ $q }}" class="form-control" placeholder="Cari..." autocomplete="off">
+                    </div>
+                </div>
+                <div class="col pl-1">
+                    &nbsp;
+                    <button type="submit" class="btn btn-primary btn-block">Cari</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
     <div class="row mb-2">
         <div class="col-1">
             <div class="text-primary">S.N.</div>

@@ -12,27 +12,48 @@
 @endsection
 
 @section('content')
-<div class="border mb-3 p-1">
-    <form action="{{ route('periodejurnal.index') }}" method="get">
-        <div class="row">
-            <div class="col-10 mr-1">
-                <div class="form-group">
-                    Pilih Periode
-                    <select name="periode" id="periode" class="form-control select2" data-width='100%' data-placeholder='Pilih Periode Akuntansi'>
-                        <option value=""></option>
-                        @foreach ($period as $row)
-                        <option value="{{ $row->id }}" {{ ($periode == $row->id) ? 'selected' : '' }}>{{ $row->mulai }} - {{ $row->selesai }}</option>
-                        @endforeach
-                    </select>
+<form action="{{ route('periodejurnal.index') }}" method="get">
+    <div class="row">
+        <div class="col pr-1">
+            <div class="border mb-3 p-1">
+                <div class="row">
+                    <div class="col-10 pr-1">
+                        <div class="form-group">
+                            Pilih Periode
+                            <select name="periode" id="periode" class="form-control select2" data-width='100%' data-placeholder='Pilih Periode Akuntansi'>
+                                <option value=""></option>
+                                @foreach ($period as $row)
+                                <option value="{{ $row->id }}" {{ ($periode == $row->id) ? 'selected' : '' }}>{{ $row->mulai }} - {{ $row->selesai }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col pl-1">
+                        &nbsp;
+                        <button type="submit" class="btn btn-primary btn-block">Cari</button>
+                    </div>
                 </div>
             </div>
-            <div class="col ml-1">
-                &nbsp;
-                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </div>
+
+        <div class="col pl-1">
+            <div class="border mb-3 p-1">
+                <div class="row">
+                    <div class="col-10 pr-1">
+                        <div class="form-group">
+                            Pencarian
+                            <input type="text" name="q" value="{{ $q }}" class="form-control" placeholder="Cari..." autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col pl-1">
+                        &nbsp;
+                        <button type="submit" class="btn btn-primary btn-block">Cari</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </form>
-</div>
+    </div>
+</form>
 
 @if (COUNT($trans) > 0)
 @foreach ($trans as $row)

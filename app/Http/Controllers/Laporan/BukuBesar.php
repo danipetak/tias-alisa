@@ -19,6 +19,7 @@ class BukuBesar extends Controller
     {
         $trans  =   '';
         $list   =   '';
+        $q      =   $request->q ?? '';
         if ($request->trans) {
             $trans  =   Account::where('id', $request->trans)
                         ->where('level', 4)
@@ -28,9 +29,21 @@ class BukuBesar extends Controller
         if ($trans) {
             $list   =   Header::whereIn('id', Headlist::select('header_id')->where('account_id', $trans->id))
                         ->withTrashed()
-                        ->paginate(40);
+                        ->get();
+
+            $list   =   $list->filter(function ($item) use ($q) {
+                            $res = true;
+                            if ($q != "") {
+                                $res =  (false !== stripos($item->nomor_transaksi, $q)) ||
+                                        (false !== stripos($item->uraian, $q)) ||
+                                        (false !== stripos($item->report_total, $q));
+                            }
+                            return $res;
+                        });
+
+            $list       =   $list->paginate(40);
         }
 
-        return view('page.laporan.buku_besar.index', compact('trans', 'list'));
+        return view('page.laporan.buku_besar.index', compact('trans', 'list', 'q'));
     }
 }
