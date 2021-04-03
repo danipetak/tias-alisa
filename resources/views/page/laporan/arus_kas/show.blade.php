@@ -2,12 +2,18 @@
 
 @section('title', 'Laporan Detail Arus Kas')
 
+@section('header')
+<link href="{{ asset('vendor/select2/css/select2.css') }}" rel="stylesheet" />
+@endsection
+
+@section('footer')
+<script src="{{ asset('vendor/select2/js/select2.min.js') }}"></script>
+@endsection
+
 @section('content')
 <div class="float-right">
     <a href="{{ route('aruskas.index', ['periode' => $periode]) }}"><< Kembali</a>
 </div>
-<div class="text-primary">Periode Arus Kas</div>
-{{ $periode->mulai }} - {{ $periode->selesai }}
 
 <div class="row my-2">
     <div class="col-7">
@@ -22,18 +28,43 @@
 </div>
 
 <form action="{{ route('aruskas.show', [ $data->id, 'periode' => $periode->id]) }}" method="get">
-    <div class="border mb-3 p-1">
-        <div class="row">
-            <div class="col-10 pr-1">
-                <div class="form-group">
-                    Pencarian
-                    <input type="hidden" name="periode" value="{{ $periode->id }}">
-                    <input type="text" name="q" value="{{ $q }}" class="form-control" placeholder="Cari..." autocomplete="off">
+    <div class="row py-2">
+        <div class="col pr-1">
+            <div class="border p-1">
+                <div class="row">
+                    <div class="col-10 pr-1">
+                        <div class="form-group">
+                            Periode
+                            <select name="periode" id="periode" class="form-control select2" data-width='100%' data-placeholder='Pilih Periode Akuntansi'>
+                                <option value=""></option>
+                                @foreach ($period as $row)
+                                <option value="{{ $row->id }}" {{ ($periode->id == $row->id) ? 'selected' : '' }}>{{ $row->mulai }} - {{ $row->selesai }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col pl-1">
+                        &nbsp;
+                        <button type="submit" class="btn btn-primary btn-block">Cari</button>
+                    </div>
                 </div>
             </div>
-            <div class="col pl-1">
-                &nbsp;
-                <button type="submit" class="btn btn-primary btn-block">Cari</button>
+        </div>
+
+        <div class="col pl-1">
+            <div class="border p-1">
+                <div class="row">
+                    <div class="col-10 pr-1">
+                        <div class="form-group">
+                            Pencarian
+                            <input type="text" name="q" value="{{ $q }}" class="form-control" placeholder="Cari..." autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col pl-1">
+                        &nbsp;
+                        <button type="submit" class="btn btn-primary btn-block">Cari</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -49,13 +80,7 @@
         </tr>
     </thead>
     <tbody>
-        @php
-            $total  =   0;
-        @endphp
         @foreach ($trans as $i => $row)
-        @php
-            $total  +=  $row->deleted_at == NULL ? $row->total_transaksi : 0;
-        @endphp
         <tr class='{{ $row->deleted_at ? ($row->correct ? "bg-correct" : "bg-deleted") : "" }}'>
             <td>{{ ++$i }}</td>
             <td><a href="{{ route('kwitansi', $row->id) }}" target="_blank">{{ $row->nomor_transaksi }}</a></td>
@@ -64,11 +89,7 @@
         </tr>
         @endforeach
     </tbody>
-    <tfoot>
-        <tr>
-            <th colspan="3">Total Transaksi</th>
-            <th class="text-right">{{ $total < 0 ? "(". number_format(abs($total), 2) .")" : number_format($total, 2)  }}</th>
-        </tr>
-    </tfoot>
 </table>
+
+{{ $trans->appends(compact('periode', 'q'))->onEachSide(1)->links('layouts.paginate') }}
 @endsection

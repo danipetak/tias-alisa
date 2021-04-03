@@ -33,13 +33,13 @@ class Header extends Model
 
     public function getTotalTransaksiAttribute()
     {
-        $data   =   Headlist::select(DB::raw("SUM(debit) AS db"), DB::raw("SUM(kredit) AS cr"))
+        $data   =   Headlist::select(DB::raw("SUM(debit) AS db"), DB::raw("SUM(kredit) AS cr"), 'accounts.sn')
                     ->where('header_id', $this->id)
-                    ->whereIn('account_id', Account::select('id')
-                        ->whereIn('link_id', [2,3,4])
-                    )->first();
+                    ->leftJoin('accounts', 'accounts.id', '=', 'headlists.account_id')
+                    ->groupBy('account_id')
+                    ->first();
 
-        return ($data->db - $data->cr);
+        return ($data->sn == 'db') ? ($data->db - $data->cr) : ($data->cr - $data->db);
     }
 
     public function getReportTotalAttribute()

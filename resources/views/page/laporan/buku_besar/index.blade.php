@@ -33,18 +33,44 @@
 
 @if ($trans)
     <form action="{{ route('bukubesar.index') }}" method="get">
-        <div class="border mb-3 p-1">
-            <div class="row">
-                <div class="col-10 pr-1">
-                    <div class="form-group">
-                        Pencarian
-                        <input type="hidden" name="trans" value="{{ $trans->id }}">
-                        <input type="text" name="q" value="{{ $q }}" class="form-control" placeholder="Cari..." autocomplete="off">
+        <input type="hidden" name="trans" value="{{ $trans->id }}">
+        <div class="row">
+            <div class="col pr-1">
+                <div class="border mb-3 p-1">
+                    <div class="row">
+                        <div class="col-10 pr-1">
+                            <div class="form-group">
+                                Pilih Periode
+                                <select name="periode" id="periode" class="form-control select2" data-width='100%' data-placeholder='Pilih Periode Akuntansi'>
+                                    <option value=""></option>
+                                    @foreach ($period as $row)
+                                    <option value="{{ $row->id }}" {{ ($periode == $row->id) ? 'selected' : '' }}>{{ $row->mulai }} - {{ $row->selesai }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col pl-1">
+                            &nbsp;
+                            <button type="submit" class="btn btn-primary btn-block">Cari</button>
+                        </div>
                     </div>
                 </div>
-                <div class="col pl-1">
-                    &nbsp;
-                    <button type="submit" class="btn btn-primary btn-block">Cari</button>
+            </div>
+
+            <div class="col pl-1">
+                <div class="border mb-3 p-1">
+                    <div class="row">
+                        <div class="col-10 pr-1">
+                            <div class="form-group">
+                                Pencarian
+                                <input type="text" name="q" value="{{ $q }}" class="form-control" placeholder="Cari..." autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col pl-1">
+                            &nbsp;
+                            <button type="submit" class="btn btn-primary btn-block">Cari</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -61,15 +87,15 @@
         </div>
         <div class="col">
             <div class="text-success text-right">Saldo Awal</div>
-            <div class="text-right">{{ $trans->saldo_awal }}</div>
+            <div class="text-right">{{ Akun::saldo_awal($periode, $trans->id, $trans->begining_balance) }}</div>
         </div>
         <div class="col">
             <div class="text-primary text-right">Mutasi</div>
-            <div class="text-right">{{ $trans->total_mutasi }}</div>
+            <div class="text-right">{{ Akun::mutasi_transaksi($periode, $trans->id) }}</div>
         </div>
         <div class="col">
             <div class="text-danger text-right">Saldo Akhir</div>
-            <div class="text-right">{{ $trans->saldo_akhir }}</div>
+            <div class="text-right">{{ Akun::saldo_akhir($periode, $trans->id, $trans->begining_balance) }}</div>
         </div>
     </div>
 

@@ -36,6 +36,7 @@ class ArusKas extends Controller
         $q          =   $request->q ?? '' ;
         $data       =   Cashflow::find($id);
         $periode    =   Periode::find($request->periode ?? Periode::periode_aktif('id'));
+        $period     =   Period::whereIn('status', [2, 3, 4])->get();
         if ($data) {
             $trans  =   Header::whereIn('id', Headlist::select('header_id')->where('cashflow_id', $data->id))
                         ->where('period_id', $request->periode ?? Periode::periode_aktif('id'))
@@ -56,7 +57,7 @@ class ArusKas extends Controller
 
             $trans  =   $trans->paginate(40);
 
-            return view('page.laporan.arus_kas.show', compact('q', 'data', 'trans', 'periode'));
+            return view('page.laporan.arus_kas.show', compact('q', 'data', 'trans', 'periode', 'period'));
         }
 
         return redirect()->route('aruskas.index');

@@ -95,8 +95,13 @@
             </li>
         </a>
         <a href="{{ route('aruskas.index') }}">
-            <li class="{{ request()->routeIs('aruskas.index') ? 'bg-active' : '' }}">
+            <li class="{{ (request()->routeIs('aruskas.index') OR request()->routeIs('aruskas.show')) ? 'bg-active' : '' }}">
                 Laporan Arus Kas
+            </li>
+        </a>
+        <a href="{{ route('posisikeuangan.index') }}">
+            <li class="{{ (request()->routeIs('posisikeuangan.index') OR request()->routeIs('posisikeuangan.show')) ? 'bg-active' : '' }}">
+                Laporan Posisi Keuangan
             </li>
         </a>
     </ul>

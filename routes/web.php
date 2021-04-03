@@ -88,3 +88,6 @@ Route::get('/laporan-bukubesar', 'Laporan\BukuBesar@index')->name('bukubesar.ind
 
 Route::get('/laporan-aruskas', 'Laporan\ArusKas@index')->name('aruskas.index');
 Route::get('/laporan-aruskas/{id}', 'Laporan\ArusKas@show')->name('aruskas.show');
+
+Route::get('/laporan-posisikeuangan', 'Laporan\PosisiKeuangan@index')->name('posisikeuangan.index');
+Route::get('/laporan-posisikeuangan/{id}', 'Laporan\PosisiKeuangan@show')->name('posisikeuangan.show');
