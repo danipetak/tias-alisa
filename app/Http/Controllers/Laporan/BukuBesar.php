@@ -29,6 +29,7 @@ class BukuBesar extends Controller
         if ($trans) {
             $list   =   Header::whereIn('id', Headlist::select('header_id')->where('account_id', $trans->id))
                         ->withTrashed()
+                        ->orderBy('tanggal_transaksi', 'DESC')
                         ->get();
 
             $list   =   $list->filter(function ($item) use ($q) {
