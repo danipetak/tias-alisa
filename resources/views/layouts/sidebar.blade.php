@@ -94,5 +94,10 @@
                 Laporan Buku Besar
             </li>
         </a>
+        <a href="{{ route('aruskas.index') }}">
+            <li class="{{ request()->routeIs('aruskas.index') ? 'bg-active' : '' }}">
+                Laporan Arus Kas
+            </li>
+        </a>
     </ul>
 </div>

@@ -85,3 +85,6 @@ Route::get('/laporan-datatransaksi', 'Laporan\DataTransaksi@index')->name('datat
 Route::get('/laporan-periodejurnal', 'Laporan\PeriodeJurnal@index')->name('periodejurnal.index');
 
 Route::get('/laporan-bukubesar', 'Laporan\BukuBesar@index')->name('bukubesar.index');
+
+Route::get('/laporan-aruskas', 'Laporan\ArusKas@index')->name('aruskas.index');
+Route::get('/laporan-aruskas/{id}', 'Laporan\ArusKas@show')->name('aruskas.show');
