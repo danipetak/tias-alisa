@@ -42,6 +42,7 @@ class ArusKas extends Controller
                         ->where('period_id', $request->periode ?? Periode::periode_aktif('id'))
                         ->withTrashed()
                         ->orderBy('tanggal_transaksi', 'DESC')
+                        ->orderBy('id', 'DESC')
                         ->get();
 
             $trans  =   $trans->filter(function ($item) use ($q) {

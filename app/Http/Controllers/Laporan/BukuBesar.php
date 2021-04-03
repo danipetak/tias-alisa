@@ -34,6 +34,7 @@ class BukuBesar extends Controller
                         ->where('period_id', $periode)
                         ->withTrashed()
                         ->orderBy('tanggal_transaksi', 'DESC')
+                        ->orderBy('id', 'DESC')
                         ->get();
 
             $list   =   $list->filter(function ($item) use ($q) {
