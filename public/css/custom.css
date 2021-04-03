@@ -3,6 +3,10 @@
     --footer-height : 30px ;
     --color-primary : #0d6efd ;
     --color-bg-primary : #bcd7ff ;
+    --color-danger : #fd0d0d ;
+    --color-bg-danger : #ffbcbc ;
+    --color-warning : #edfd0d ;
+    --color-bg-warning : #fffbbc ;
 }
 
 body {
@@ -74,6 +78,16 @@ table, th, td {
 
 .bg-active {
     background-color: var(--color-bg-primary);
+    color: #403c38;
+}
+
+.bg-deleted {
+    background-color: var(--color-bg-danger);
+    color: #403c38;
+}
+
+.bg-correct {
+    background-color: var(--color-bg-warning);
     color: #403c38;
 }
 

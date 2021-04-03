@@ -85,7 +85,7 @@
             </thead>
             <tbody>
                 @foreach ($list as $i => $row)
-                <tr>
+                <tr class='{{ $row->deleted_at ? ($row->correct ? "bg-correct" : "bg-deleted") : "" }}'>
                     <td>{{ ++$i }}</td>
                     <td><a href="{{ route('kwitansi', $row->id) }}" target="_blank">{{ $row->nomor_transaksi }}</a></td>
                     <td>{{ $row->uraian }}</td>

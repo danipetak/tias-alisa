@@ -57,7 +57,7 @@
 
 @if (COUNT($trans) > 0)
 @foreach ($trans as $row)
-<table class="table mb-2">
+<table class="table mb-2 {{ $row->deleted_at ? ($row->correct ? "bg-correct" : "bg-deleted") : "" }}">
     <thead>
         <tr>
             <td colspan="3"><b>Tanggal Transaksi : </b> {{ Tanggal::date($row->tanggal_transaksi) }}</td>

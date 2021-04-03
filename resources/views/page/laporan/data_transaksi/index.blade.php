@@ -67,7 +67,7 @@
     </thead>
     <tbody>
         @foreach ($trans as $row)
-        <tr>
+        <tr class='{{ $row->deleted_at ? ($row->correct ? "bg-correct" : "bg-deleted") : "" }}'>
             <td>{{ Tanggal::date($row->tanggal_transaksi) }}</td>
             <td class="text-bold"><a href="{{ route('kwitansi', $row->id) }}">{{ $row->nomor_transaksi }}</a></td>
             <td>{{ $row->uraian }}</td>

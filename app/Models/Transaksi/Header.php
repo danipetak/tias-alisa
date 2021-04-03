@@ -130,4 +130,9 @@ class Header extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function correct()
+    {
+        return $this->hasMany(Header::class, 'parent', 'id');
+    }
 }
