@@ -58,6 +58,7 @@ class PosisiKeuangan extends Controller
 
         if ($data) {
             $akun   =   Account::where('parent', $data->id)
+                        ->orderBy('kode_akun', 'ASC')
                         ->get();
 
             return view('page.laporan.posisi_keuangan.show', compact('data', 'periode', 'period', 'akun'));

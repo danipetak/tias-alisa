@@ -91,3 +91,7 @@ Route::get('/laporan-aruskas/{id}', 'Laporan\ArusKas@show')->name('aruskas.show'
 
 Route::get('/laporan-posisikeuangan', 'Laporan\PosisiKeuangan@index')->name('posisikeuangan.index');
 Route::get('/laporan-posisikeuangan/{id}', 'Laporan\PosisiKeuangan@show')->name('posisikeuangan.show');
+
+Route::get('/laporan-labarugi', 'Laporan\LabaRugi@index')->name('labarugi.index');
+
+Route::get('/laporan-perubahanekuitas', 'Laporan\PosisiKeuangan@index')->name('perubahanekuitas.index');

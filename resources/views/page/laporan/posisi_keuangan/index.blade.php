@@ -50,17 +50,17 @@
         @php $before_aset =   0; @endphp
         @endif
         @foreach ($aset as $row)
-        @php $total_aset +=  Akun::posisi_keuangan($row->id, $periode, TRUE); @endphp
+        @php $total_aset +=  Akun::hitung_kas($row->id, $periode, TRUE); @endphp
         @if ($before)
-        @php $before_aset +=  Akun::posisi_keuangan($row->id, $before->id, TRUE); @endphp
+        @php $before_aset +=  Akun::hitung_kas($row->id, $before->id, TRUE); @endphp
         @endif
-        <tr class="{{ (Akun::posisi_keuangan($row->id, $periode) OR Akun::posisi_keuangan($row->id, $before->id ?? $periode)) ? '' : 'bg-active' }}">
+        <tr class="{{ (Akun::hitung_kas($row->id, $periode) OR Akun::hitung_kas($row->id, $before->id ?? $periode)) ? '' : 'bg-active' }}">
             <td><a href="{{ route('posisikeuangan.show', [$row->id, 'periode' => $periode]) }}">{{ $row->kode_akun }}</a></td>
             <td><a href="{{ route('posisikeuangan.show', [$row->id, 'periode' => $periode]) }}">{{ $row->nama_akun }}</a></td>
             @if ($before)
-            <td class="text-right">{{ Akun::posisi_keuangan($row->id, $before->id) }}</td>
+            <td class="text-right">{{ Akun::hitung_kas($row->id, $before->id) }}</td>
             @endif
-            <td class="text-right">{{ Akun::posisi_keuangan($row->id, $periode) }}</td>
+            <td class="text-right">{{ Akun::hitung_kas($row->id, $periode) }}</td>
         </tr>
         @endforeach
         <tr>
@@ -79,17 +79,17 @@
         @php $before_kewajiban   =   0; @endphp
         @endif
         @foreach ($kewajiban as $row)
-        @php $total_kewajiban   +=  Akun::posisi_keuangan($row->id, $periode, TRUE); @endphp
+        @php $total_kewajiban   +=  Akun::hitung_kas($row->id, $periode, TRUE); @endphp
         @if ($before)
-        @php $before_kewajiban   +=  Akun::posisi_keuangan($row->id, $before->id, TRUE); @endphp
+        @php $before_kewajiban   +=  Akun::hitung_kas($row->id, $before->id, TRUE); @endphp
         @endif
-        <tr class="{{ (Akun::posisi_keuangan($row->id, $periode) OR Akun::posisi_keuangan($row->id, $before->id ?? $periode)) ? '' : 'bg-active' }}">
+        <tr class="{{ (Akun::hitung_kas($row->id, $periode) OR Akun::hitung_kas($row->id, $before->id ?? $periode)) ? '' : 'bg-active' }}">
             <td><a href="{{ route('posisikeuangan.show', [$row->id, 'periode' => $periode]) }}">{{ $row->kode_akun }}</a></td>
             <td><a href="{{ route('posisikeuangan.show', [$row->id, 'periode' => $periode]) }}">{{ $row->nama_akun }}</a></td>
             @if ($before)
-            <td class="text-right">{{ Akun::posisi_keuangan($row->id, $before->id) }}</td>
+            <td class="text-right">{{ Akun::hitung_kas($row->id, $before->id) }}</td>
             @endif
-            <td class="text-right">{{ Akun::posisi_keuangan($row->id, $periode) }}</td>
+            <td class="text-right">{{ Akun::hitung_kas($row->id, $periode) }}</td>
         </tr>
         @endforeach
         <tr>
@@ -108,17 +108,17 @@
         @php $before_modal   =   0; @endphp
         @endif
         @foreach ($modal as $row)
-        @php $total_modal   +=  Akun::posisi_keuangan($row->id, $periode, TRUE); @endphp
+        @php $total_modal   +=  Akun::hitung_kas($row->id, $periode, TRUE); @endphp
         @if ($before)
-        @php $before_modal   +=  Akun::posisi_keuangan($row->id, $before->id, TRUE); @endphp
+        @php $before_modal   +=  Akun::hitung_kas($row->id, $before->id, TRUE); @endphp
         @endif
-        <tr class="{{ (Akun::posisi_keuangan($row->id, $periode) OR Akun::posisi_keuangan($row->id, $before->id ?? $periode)) ? '' : 'bg-active' }}">
+        <tr class="{{ (Akun::hitung_kas($row->id, $periode) OR Akun::hitung_kas($row->id, $before->id ?? $periode)) ? '' : 'bg-active' }}">
             <td><a href="{{ route('posisikeuangan.show', [$row->id, 'periode' => $periode]) }}">{{ $row->kode_akun }}</a></td>
             <td><a href="{{ route('posisikeuangan.show', [$row->id, 'periode' => $periode]) }}">{{ $row->nama_akun }}</a></td>
             @if ($before)
-            <td class="text-right">{{ Akun::posisi_keuangan($row->id, $before->id) }}</td>
+            <td class="text-right">{{ Akun::hitung_kas($row->id, $before->id) }}</td>
             @endif
-            <td class="text-right">{{ Akun::posisi_keuangan($row->id, $periode) }}</td>
+            <td class="text-right">{{ Akun::hitung_kas($row->id, $periode) }}</td>
         </tr>
         @endforeach
         <tr>

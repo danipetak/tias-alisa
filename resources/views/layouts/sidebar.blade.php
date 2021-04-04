@@ -104,5 +104,15 @@
                 Laporan Posisi Keuangan
             </li>
         </a>
+        <a href="{{ route('labarugi.index') }}">
+            <li class="{{ request()->routeIs('labarugi.index') ? 'bg-active' : '' }}">
+                Laporan Laba Rugi
+            </li>
+        </a>
+        <a href="{{ route('perubahanekuitas.index') }}">
+            <li class="{{ request()->routeIs('perubahanekuitas.index') ? 'bg-active' : '' }}">
+                Laporan Perubahan Ekuitas
+            </li>
+        </a>
     </ul>
 </div>

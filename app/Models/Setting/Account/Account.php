@@ -121,7 +121,7 @@ class Account extends Model
         return $data;
     }
 
-    public static function posisi_keuangan($parent, $periode, $nominal=FALSE)
+    public static function hitung_kas($parent, $periode, $nominal=FALSE)
     {
         $akun   =   Account::select('id', 'begining_balance', 'sn')
                     ->where('parent', $parent)
